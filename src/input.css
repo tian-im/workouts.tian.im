@@ -1,0 +1,293 @@
+@import "tailwindcss";
+
+@source "../index.html";
+@source "../404.html";
+@source "../for-james/index.html";
+@source "../assets/app.js";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Bricolage Grotesque", "Inter", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-void: #070a0d;
+  --color-panel: #0e141a;
+  --color-panel-2: #131b23;
+  --color-panel-3: #1a242e;
+  --color-line: #24303c;
+  --color-chalk: #eaf0f6;
+  --color-mute: #8d9bab;
+  --color-lime: #d8ff47;
+  --color-lime-dim: #b4dc2d;
+  --color-ember: #ff8a4c;
+  --color-ice: #7ad3ff;
+  --color-violet: #b79bff;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-chalk);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: #070a0d;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-lime);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Ambient page texture: a faint grid that fades out */
+  .page-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.032) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 25%, transparent 78%);
+  }
+
+  .card {
+    background-color: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 999px;
+    padding: 0.28rem 0.65rem;
+    font-size: 0.75rem;
+    line-height: 1.1;
+    color: #c6d2de;
+    white-space: nowrap;
+  }
+
+  /* Exercise tracking control */
+  .set-dot {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.02);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-mute);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 140ms ease,
+      border-color 140ms ease,
+      color 140ms ease,
+      transform 140ms ease;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .set-dot:hover {
+    border-color: #47586a;
+    color: var(--color-chalk);
+  }
+
+  .set-dot:active {
+    transform: scale(0.93);
+  }
+
+  .set-dot[data-done="true"] {
+    background: var(--color-lime);
+    border-color: var(--color-lime);
+    color: #0a0e12;
+    font-weight: 700;
+  }
+
+  .weight-input {
+    width: 5.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-line);
+    border-radius: 0.55rem;
+    padding: 0.45rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-chalk);
+    text-align: center;
+    transition: border-color 140ms ease;
+  }
+
+  .weight-input:hover {
+    border-color: #47586a;
+  }
+
+  .weight-input:focus {
+    border-color: var(--color-lime);
+    outline: none;
+    background: rgba(216, 255, 71, 0.06);
+  }
+
+  .weight-input::placeholder {
+    color: #5a6978;
+  }
+
+  /* hide number spinners */
+  .weight-input::-webkit-outer-spin-button,
+  .weight-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .weight-input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .day-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-mute);
+    border: 1px solid transparent;
+    transition:
+      color 140ms ease,
+      background 140ms ease,
+      border-color 140ms ease;
+    white-space: nowrap;
+  }
+
+  .day-tab:hover {
+    color: var(--color-chalk);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .day-tab[aria-current="true"] {
+    color: var(--color-chalk);
+    background: rgba(216, 255, 71, 0.1);
+    border-color: rgba(216, 255, 71, 0.35);
+  }
+
+  .tracker-panel {
+    border: 1px dashed var(--color-line);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.014);
+  }
+
+  .rule {
+    display: flex;
+    gap: 0.9rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-lime);
+    font-size: 0.75rem;
+    padding-top: 0.2rem;
+    flex: none;
+  }
+}
+
+/* Print: clean paper version for the fridge */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  .page-grid,
+  .no-print,
+  .day-tabbar,
+  #session-nav {
+    display: none !important;
+  }
+
+  .card,
+  .tracker-panel {
+    background: #fff !important;
+    border: 1px solid #d5dbe1 !important;
+    box-shadow: none !important;
+  }
+
+  .set-dot {
+    border: 1px solid #c3ccd4 !important;
+    background: #fff !important;
+    color: #6b7681 !important;
+  }
+
+  .weight-input {
+    background: #fff !important;
+    border: 1px solid #c3ccd4 !important;
+    color: #111 !important;
+  }
+
+  .ex-card {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #111 !important;
+  }
+
+  .text-mute,
+  .eyebrow {
+    color: #5b6670 !important;
+  }
+
+  a {
+    color: #111 !important;
+    text-decoration: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
