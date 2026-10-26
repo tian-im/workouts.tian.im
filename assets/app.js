@@ -318,7 +318,7 @@
         <div class="detail-section">
           <p class="eyebrow">The loop</p>
           <ul class="detail-list">
-            <li>Walk in, open this page, tap the next session tab.</li>
+            <li>Walk in, open <strong>Contents</strong>, tap the next session.</li>
             <li>Do the warm-up, then the exercises top to bottom. Compounds first, always.</li>
             <li>Log the weight and tap the set number as you finish each set.</li>
             <li>Next time, the numbers are still there. Add weight when the rule says so.</li>
@@ -327,10 +327,15 @@
         <div class="detail-section">
           <p class="eyebrow">The buttons</p>
           <ul class="detail-list">
+            <li><strong>Contents</strong> jumps to any session, the rotation, progression, the back playbook or the appendix.</li>
             <li><strong>i</strong> on any exercise opens form notes, common mistakes, and easier/harder swaps.</li>
             <li><strong>Reset</strong> in the top bar clears every logged set. Individual sessions have their own reset at the bottom.</li>
             <li><strong>Print</strong> gives you a clean paper version if you'd rather not use your phone.</li>
           </ul>
+        </div>
+        <div class="detail-section">
+          <p class="eyebrow">The briefing</p>
+          <p class="text-[13px] text-soft">The sessions stay locked until you acknowledge the six rules on the first screen. You can reopen that briefing any time from Contents — it stays on the page.</p>
         </div>
         <div class="detail-section">
           <p class="eyebrow">Where the data lives</p>
@@ -377,7 +382,7 @@
         </div>
         <div class="detail-section">
           <p class="eyebrow">Why bother</p>
-          <p class="text-[13px] text-soft">Tempo keeps the set honest when the weight is light. It also stops you from bouncing, which is how most beginners get hurt and how most reps get wasted.</p>
+          <p class="text-[13px] text-soft">Tempo keeps the set honest when the weight is light. It also stops you from bouncing, which is how most people get hurt and how most reps get wasted.</p>
         </div>
         <div class="detail-section">
           <p class="eyebrow">If no tempo is written</p>
@@ -419,6 +424,7 @@
   if (year) year.textContent = String(new Date().getFullYear());
 
   /* ── Storage ────────────────────────────────────────────────── */
+  const ACK_KEY = "james-plan-read-v1";
   const blank = () => ({ weights: {}, done: {} });
 
   function load() {
@@ -440,6 +446,22 @@
       localStorage.setItem(KEY, JSON.stringify(state));
     } catch {
       /* Private mode or full storage: tracker still works for this session */
+    }
+  }
+
+  function readAck() {
+    try {
+      return localStorage.getItem(ACK_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  function writeAck() {
+    try {
+      localStorage.setItem(ACK_KEY, "1");
+    } catch {
+      /* the unlock still applies for this visit */
     }
   }
 
@@ -489,6 +511,7 @@
     let totalSets = 0;
 
     sessions.forEach((section) => {
+      const letter = section.dataset.session;
       let done = 0;
       let total = 0;
 
@@ -508,23 +531,31 @@
       const bar = section.querySelector("[data-progress-bar]");
       const text = section.querySelector("[data-progress-text]");
 
-      if (bar) bar.style.width = `${pct}%`;
+      if (bar) bar.style.width = pct + "%";
       if (text) {
-        text.textContent = `${done} / ${total}`;
+        text.textContent = done + " / " + total;
         text.classList.toggle("text-lime", pct === 100);
       }
 
-      const tab = document.querySelector(`[data-tab="${section.id}"]`);
+      const tab = document.querySelector('[data-tab="' + section.id + '"]');
       if (tab) tab.dataset.complete = pct === 100 ? "true" : "false";
+
+      const sumBar = document.querySelector('[data-summary-bar="' + letter + '"]');
+      const sumText = document.querySelector('[data-summary-text="' + letter + '"]');
+      if (sumBar) sumBar.style.width = pct + "%";
+      if (sumText) {
+        sumText.textContent = done + " / " + total;
+        sumText.classList.toggle("text-lime", pct === 100);
+      }
     });
 
     document.querySelectorAll("[data-week-label]").forEach((el) => {
       if (totalDone === 0) {
         el.textContent = "0 sets logged";
       } else if (totalDone === totalSets) {
-        el.textContent = `block complete · ${totalDone} sets`;
+        el.textContent = "block complete · " + totalDone + " sets";
       } else {
-        el.textContent = `${totalDone} of ${totalSets} sets logged`;
+        el.textContent = totalDone + " of " + totalSets + " sets logged";
       }
     });
   }
@@ -567,95 +598,117 @@
     });
   });
 
-  /* ── Detail sheet ───────────────────────────────────────────── */
-  const dialog = document.getElementById("detail");
-  const sheetBody = dialog ? dialog.querySelector(".detail-scroll") : null;
-  const sheetTitle = document.getElementById("detail-title");
-  const sheetEyebrow = document.getElementById("detail-eyebrow");
-  let lastFocus = null;
-  let closeTimer = null;
+  /* ── Sheets (detail + contents) ─────────────────────────────── */
+  function makeSheet(dialog) {
+    let timer = null;
 
-  // The sheet is a modal dialog — announce that on every trigger.
+    function open() {
+      if (!dialog) return;
+      clearTimeout(timer);
+      if (!dialog.open) dialog.showModal();
+      requestAnimationFrame(() => dialog.classList.add("is-open"));
+      document.documentElement.style.overflow = "hidden";
+    }
+
+    function close(immediate = false) {
+      return new Promise((resolve) => {
+        if (!dialog || !dialog.open) return resolve();
+        dialog.classList.remove("is-open");
+        document.documentElement.style.overflow = "";
+        clearTimeout(timer);
+        if (immediate) {
+          dialog.close();
+          return resolve();
+        }
+        timer = setTimeout(() => {
+          dialog.close();
+          resolve();
+        }, 260);
+      });
+    }
+
+    if (dialog) {
+      dialog.addEventListener("cancel", (e) => {
+        e.preventDefault();
+        close();
+      });
+      dialog.addEventListener("mousedown", (e) => {
+        if (e.target === dialog) close();
+      });
+      dialog.addEventListener("keydown", (e) => {
+        if (e.key !== "Tab") return;
+        const focusables = dialog.querySelectorAll(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+        );
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      });
+    }
+
+    return { open, close };
+  }
+
+  /* ── Detail sheet ───────────────────────────────────────────── */
+  const detailDialog = document.getElementById("detail");
+  const detailBody = detailDialog ? detailDialog.querySelector(".detail-scroll") : null;
+  const detailTitle = document.getElementById("detail-title");
+  const detailEyebrow = document.getElementById("detail-eyebrow");
+  const detailSheet = makeSheet(detailDialog);
+  let lastFocus = null;
+
   document.querySelectorAll("[data-detail]").forEach((trigger) => {
     trigger.setAttribute("aria-haspopup", "dialog");
   });
-
-  // Progress readouts are live regions for screen readers.
   document.querySelectorAll("[data-progress-text]").forEach((el) => {
     el.setAttribute("aria-live", "polite");
   });
 
-  function esc(str) {
-    return String(str).replace(/[&<>"']/g, (c) => ({
+  const esc = (str) =>
+    String(str).replace(/[&<>"']/g, (c) => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;",
     })[c]);
-  }
-
-  function openSheet({ eyebrow, title, html }) {
-    if (!dialog) return;
-    lastFocus = document.activeElement;
-    sheetEyebrow.textContent = eyebrow;
-    sheetTitle.textContent = title;
-    sheetBody.innerHTML = html;
-    sheetBody.scrollTop = 0;
-
-    clearTimeout(closeTimer);
-    if (!dialog.open) dialog.showModal();
-    requestAnimationFrame(() => dialog.classList.add("is-open"));
-    document.documentElement.style.overflow = "hidden";
-  }
-
-  function closeSheet() {
-    if (!dialog || !dialog.open) return;
-    dialog.classList.remove("is-open");
-    document.documentElement.style.overflow = "";
-    closeTimer = setTimeout(() => {
-      dialog.close();
-      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
-    }, 260);
-  }
 
   function exerciseHtml(card, ref) {
     const meta = card.querySelector(".ex-meta");
     const metaHtml = meta ? meta.outerHTML : "";
-    const name = ref.name || card.querySelector(".ex-title").textContent.trim();
-    const query = encodeURIComponent(`${name} form`);
+    const name = card.querySelector(".ex-title").textContent.trim();
+    const query = encodeURIComponent(name + " form");
 
-    return `
-      <div class="font-mono text-[11px] text-mute">${metaHtml}</div>
-      <div class="detail-section">
-        <p class="eyebrow">Why it's here</p>
-        <p class="mt-1 text-[13px] leading-relaxed text-soft">${esc(ref.why)}</p>
-      </div>
-      <div class="detail-section">
-        <p class="eyebrow">Common mistakes</p>
-        <ul class="detail-list">
-          ${ref.mistakes.map((m) => `<li>${esc(m)}</li>`).join("")}
-        </ul>
-      </div>
-      <div class="detail-section">
-        <p class="eyebrow">Adjustments</p>
-        <div class="mt-1.5 grid gap-2">
-          <div class="flex gap-2.5 text-[13px] leading-relaxed">
-            <span class="shrink-0 font-mono text-[10px] uppercase tracking-wider text-mute">Easier</span>
-            <span class="text-soft">${esc(ref.easier)}</span>
-          </div>
-          <div class="flex gap-2.5 text-[13px] leading-relaxed">
-            <span class="shrink-0 font-mono text-[10px] uppercase tracking-wider text-mute">Harder</span>
-            <span class="text-soft">${esc(ref.harder)}</span>
-          </div>
-        </div>
-      </div>
-      <div class="detail-section">
-        <a class="detail-video" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">
-          Watch form videos
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
-        </a>
-      </div>`;
+    return (
+      '<div class="font-mono text-[11px] text-mute">' + metaHtml + "</div>" +
+      '<div class="detail-section"><p class="eyebrow">Why it\'s here</p>' +
+      '<p class="mt-1 text-[13px] leading-relaxed text-soft">' + esc(ref.why) + "</p></div>" +
+      '<div class="detail-section"><p class="eyebrow">Common mistakes</p>' +
+      '<ul class="detail-list">' + ref.mistakes.map((m) => "<li>" + esc(m) + "</li>").join("") + "</ul></div>" +
+      '<div class="detail-section"><p class="eyebrow">Adjustments</p><div class="mt-1.5 grid gap-2">' +
+      '<div class="flex gap-2.5 text-[13px] leading-relaxed"><span class="shrink-0 font-mono text-[10px] uppercase tracking-wider text-mute">Easier</span><span class="text-soft">' + esc(ref.easier) + "</span></div>" +
+      '<div class="flex gap-2.5 text-[13px] leading-relaxed"><span class="shrink-0 font-mono text-[10px] uppercase tracking-wider text-mute">Harder</span><span class="text-soft">' + esc(ref.harder) + "</span></div>" +
+      "</div></div>" +
+      '<div class="detail-section"><a class="detail-video" href="https://www.youtube.com/results?search_query=' + query + '" target="_blank" rel="noopener">Watch form videos' +
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></a></div>'
+    );
+  }
+
+  function openDetail(eyebrow, title, html) {
+    if (!detailDialog) return;
+    lastFocus = document.activeElement;
+    detailEyebrow.textContent = eyebrow;
+    detailTitle.textContent = title;
+    detailBody.innerHTML = html;
+    detailBody.scrollTop = 0;
+    detailSheet.open();
   }
 
   document.querySelectorAll("[data-detail]").forEach((trigger) => {
@@ -664,91 +717,204 @@
 
       if (key.startsWith("ex:")) {
         const id = key.slice(3);
-        const card = document.querySelector(`[data-ex="${id}"]`);
+        const card = document.querySelector('[data-ex="' + id + '"]');
         const ref = EX[id];
         if (!card || !ref) return;
-        const session = card.closest("[data-session]");
-        openSheet({
-          eyebrow: `Exercise · Session ${session ? session.dataset.session : ""}`.trim(),
-          title: card.querySelector(".ex-title").textContent.trim(),
-          html: exerciseHtml(card, ref),
-        });
+        const section = card.closest("[data-session]");
+        openDetail(
+          "Exercise · Session " + (section ? section.dataset.session : ""),
+          card.querySelector(".ex-title").textContent.trim(),
+          exerciseHtml(card, ref),
+        );
         return;
       }
 
       const content = CONTENT[key];
       if (!content) return;
-      openSheet({
-        eyebrow: content.eyebrow,
-        title: content.title,
-        html: content.html,
-      });
+      openDetail(content.eyebrow, content.title, content.html);
     });
   });
 
-  if (dialog) {
-    dialog.querySelector("[data-detail-close]").addEventListener("click", closeSheet);
+  if (detailDialog) {
+    detailDialog.querySelector("[data-detail-close]").addEventListener("click", () => {
+      detailSheet.close();
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    });
+  }
 
-    // Tap/click on the backdrop closes
-    dialog.addEventListener("mousedown", (e) => {
-      if (e.target === dialog) closeSheet();
+  /* ── Contents sheet ─────────────────────────────────────────── */
+  const tocDialog = document.getElementById("toc");
+  const tocSheet = makeSheet(tocDialog);
+  const tocLinks = Array.from(document.querySelectorAll("[data-toc-link]"));
+
+  document.querySelectorAll("[data-toc-open]").forEach((btn) => {
+    btn.addEventListener("click", () => tocSheet.open());
+  });
+
+  if (tocDialog) {
+    tocDialog.querySelector("[data-toc-close]").addEventListener("click", () => tocSheet.close());
+  }
+
+  /* ── Read-first gate ────────────────────────────────────────── */
+  const ackBtn = document.querySelector("[data-ack]");
+  const ackState = document.querySelector("[data-ack-state]");
+  const startLink = document.querySelector("[data-start]");
+  const startLabel = document.querySelector("[data-start-label]");
+  const ackCard = document.getElementById("ack");
+
+  const isPreRead = () => document.documentElement.classList.contains("pre-read");
+
+  function applyGate(acked) {
+    document.documentElement.classList.toggle("pre-read", !acked);
+
+    tocLinks.forEach((link) => {
+      const target = document.querySelector(link.getAttribute("href"));
+      const gated = target && target.closest("[data-gated]");
+      if (!acked && gated) link.dataset.locked = "true";
+      else delete link.dataset.locked;
     });
 
-    // ESC
-    dialog.addEventListener("cancel", (e) => {
+    const tocNote = document.querySelector("[data-toc-note]");
+    if (tocNote) tocNote.hidden = acked;
+
+    document.querySelectorAll("[data-tab]").forEach((tab) => {
+      tab.setAttribute("aria-disabled", acked ? "false" : "true");
+    });
+
+    if (startLink) {
+      startLink.setAttribute("href", acked ? "#session-a" : "#read-first");
+    }
+    if (startLabel) {
+      startLabel.textContent = acked ? "Start with Session A" : "Read the briefing";
+    }
+    if (ackBtn) ackBtn.style.display = acked ? "none" : "";
+    if (ackState) ackState.style.display = acked ? "flex" : "none";
+  }
+
+  function acknowledge({ scroll = true } = {}) {
+    writeAck();
+    applyGate(true);
+    if (scroll) {
+      window.setTimeout(() => {
+        const target = document.getElementById("session-a");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }
+
+  if (ackBtn) ackBtn.addEventListener("click", () => acknowledge());
+
+  // Tabs are locked until the briefing is acknowledged.
+  document.querySelectorAll(".day-tab").forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      if (!isPreRead()) return;
       e.preventDefault();
-      closeSheet();
+      if (ackCard) ackCard.scrollIntoView({ behavior: "smooth", block: "center" });
     });
+  });
 
-    // Keep focus inside the sheet
-    dialog.addEventListener("keydown", (e) => {
-      if (e.key !== "Tab") return;
-      const focusables = dialog.querySelectorAll(
-        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+
+  /* ── Contents navigation ────────────────────────────────────── */
+  tocLinks.forEach((link) => {
+    link.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const href = link.getAttribute("href");
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      await tocSheet.close(true);
+
+      if (isPreRead() && target.closest("[data-gated]")) {
+        if (ackCard) ackCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
       }
+
+      // Contents jumps instantly: smooth scrolling across 13,000 px feels broken.
+      jumpTo(target);
+      history.replaceState(null, "", href);
+    });
+  });
+
+  function jumpTo(el) {
+    const root = document.documentElement;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    const top = el.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo(0, Math.max(0, top));
+    root.style.scrollBehavior = prev;
+    updateActive();
+  }
+
+  /* ── Scroll spy ─────────────────────────────────────────────── */
+  const spyTargets = Array.from(
+    new Set(tocLinks.map((l) => l.getAttribute("href").slice(1))),
+  )
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  let spyQueued = false;
+
+  function updateActive() {
+    if (!spyTargets.length) return;
+
+    const offset = 140;
+    let current = spyTargets[0].id;
+
+    spyTargets.forEach((section) => {
+      if (section.getBoundingClientRect().top <= offset) current = section.id;
+    });
+
+    const atBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 8;
+    if (atBottom) current = spyTargets[spyTargets.length - 1].id;
+
+    tocLinks.forEach((link) => {
+      link.setAttribute(
+        "aria-current",
+        link.getAttribute("href") === "#" + current ? "true" : "false",
+      );
+    });
+
+    document.querySelectorAll("[data-tab]").forEach((tab) => {
+      tab.setAttribute("aria-current", tab.dataset.tab === current ? "true" : "false");
     });
   }
 
-  /* ── Scroll-spy on the sticky session nav ───────────────────── */
-  const tabs = Array.from(document.querySelectorAll("[data-tab]"));
-  if (tabs.length && sessions.length && "IntersectionObserver" in window) {
-    const visible = new Map();
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          visible.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
-        });
-
-        let best = null;
-        let bestRatio = 0;
-        visible.forEach((ratio, id) => {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            best = id;
-          }
-        });
-        if (!best) return;
-
-        tabs.forEach((tab) => {
-          tab.setAttribute("aria-current", tab.dataset.tab === best ? "true" : "false");
-        });
-      },
-      { rootMargin: "-15% 0px -60% 0px", threshold: [0, 0.1, 0.3, 0.6, 0.9] },
-    );
-
-    sessions.forEach((s) => observer.observe(s));
+  function queueSpy() {
+    if (spyQueued) return;
+    spyQueued = true;
+    requestAnimationFrame(() => {
+      spyQueued = false;
+      updateActive();
+    });
   }
 
+  window.addEventListener("scroll", queueSpy, { passive: true });
+  window.addEventListener("resize", queueSpy);
+
+  /* ── Init ───────────────────────────────────────────────────── */
+  let startAcked = readAck();
+  let deepLink = null;
+
+  // Landing on a deep link into the plan counts as intent to start.
+  if (location.hash && location.hash.length > 1) {
+    try {
+      const target = document.querySelector(location.hash);
+      if (target && target.closest("[data-gated]")) {
+        startAcked = true;
+        deepLink = target;
+      }
+    } catch {
+      /* malformed hash */
+    }
+  }
+
+  applyGate(startAcked);
   render();
+  updateActive();
+
+  if (deepLink) {
+    requestAnimationFrame(() => jumpTo(deepLink));
+  }
 })();

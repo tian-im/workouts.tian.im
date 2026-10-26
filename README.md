@@ -43,6 +43,21 @@ Repo settings needed once:
 - **Settings → Pages → Custom domain: `workouts.tian.im`** (the build also emits `CNAME`)
 - DNS: `CNAME` record `workouts.tian.im` → `tian-im.github.io`
 
+## Page structure
+
+- **Summary** — hero, key numbers, entry point.
+- **Read this first** — the six rules plus the non-negotiables. The plan below is gated until
+  the acknowledgement button is pressed (`localStorage["james-plan-read-v1"]`). Deep links into a
+  session unlock it automatically; print always shows everything.
+- **Sessions A–E** — the plan itself, with the tracker.
+- **Progress** — at-a-glance bars for each session, fed by the same state.
+- **Rotation / Progression / Back playbook** — how the programme works.
+- **Fuel & recovery, FAQ, Appendix** — reference material.
+
+**Contents** (the hamburger in the header and in the sticky bar) opens the table of contents:
+bottom sheet on phones, left drawer on desktop. Tapping an entry jumps instantly to that section
+(smooth scrolling across a 13,000 px page feels broken, so TOC jumps are instant).
+
 ## How the plan is structured
 
 - **Sessions A–E** in a rolling rotation (not weekday-locked), with a 3-day floor of A, C, D.
@@ -60,5 +75,9 @@ adding a card **and** an entry keyed to the same id.
 
 ### Tracking data
 
-Stored under `localStorage["james-plan-v1"]` as `{ weights: { A1: 60 }, done: { A1: [true, false, false] } }`.
-No accounts, no backend. Private browsing wipes it on tab close.
+Two keys, both local-only:
+
+- `james-plan-v1` — `{ weights: { A1: 60 }, done: { A1: [true, false, false] } }`
+- `james-plan-read-v1` — `"1"` once the briefing is acknowledged
+
+No accounts, no backend. Private browsing wipes both on tab close.
