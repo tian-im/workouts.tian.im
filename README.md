@@ -2,12 +2,12 @@
 
 Training plans for the nephews. Static site, Tailwind CSS, deployed to GitHub Pages by GitHub Actions.
 
-**Live plan:** https://workouts.tian.im/for-james/
+**Live plan:** https://workouts.tian.im/james/
 
 ## What's here
 
 ```
-for-james/index.html   The plan itself (sessions, rotation, progression, references)
+james/index.html       The plan itself (sessions, rotation, progression, references)
 assets/app.js          Set tracker (localStorage), sheets, scroll-spy, calculator wiring
 assets/calc.js         Pure calculation functions (1RM, BMR, TDEE, protein)
 src/input.css          Tailwind entry + design tokens + component classes
@@ -15,7 +15,8 @@ public/CNAME           Custom domain written into the build
 scripts/build.mjs      Copies pages, compiles Tailwind into dist/
 scripts/calc.test.mjs  Unit tests for assets/calc.js
 .github/workflows/     Build + deploy to Pages on push to develop or main
-index.html             Root redirect → /for-james/
+index.html             Root redirect → /james/
+for-james/index.html   Legacy redirect → /james/
 404.html               Not-found page
 AGENTS.md              Project rules for contributors and agents
 ```
@@ -75,7 +76,7 @@ bottom sheet on phones, left drawer on desktop. Tapping an entry jumps instantly
 
 ### Editing the plan
 
-Exercise cards are plain HTML in `for-james/index.html`. Each one carries `data-ex="A1"` and a
+Exercise cards are plain HTML in `james/index.html`. Each one carries `data-ex="A1"` and a
 `data-sets`-worth of `.set-dot` buttons. Per-exercise reference content (why it's here, mistakes,
 easier/harder swaps) lives in the `EX` map at the top of `assets/app.js`. Adding an exercise means
 adding a card **and** an entry keyed to the same id.

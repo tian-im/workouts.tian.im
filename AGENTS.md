@@ -108,7 +108,8 @@ npm test           # calculation unit tests
 
 | Path | What lives there |
 | --- | --- |
-| `for-james/index.html` | the plan: copy, exercise cards, sections |
+| `james/index.html` | the plan: copy, exercise cards, sections |
+| `for-james/index.html` | legacy URL, redirects to `/james/` — do not add content here |
 | `assets/app.js` | tracker, detail + contents sheets, gate state, calculators wiring, scroll spy |
 | `assets/calc.js` | pure calculation functions |
 | `src/input.css` | design tokens + component classes |
@@ -128,7 +129,7 @@ npm test           # calculation unit tests
 ## Before you ship
 
 1. `npm run build && npm test`
-2. Check `/for-james/` at 320, 390, 768 and 1440 — no overflow, sticky bar not covering headings.
+2. Check `/james/` at 320, 390, 768 and 1440 — no overflow, sticky bar not covering headings.
 3. Clear site data and reload: the briefing appears first, sessions are still reachable.
 4. Print preview: no controls, no ack card, sessions and appendix present.
 5. Commit with a message that says what changed for James, not just which files moved.

@@ -20,9 +20,9 @@ await mkdir(path.join(dist, "assets"), { recursive: true });
 // ── Static pages ───────────────────────────────────────────────
 await cp(path.join(root, "index.html"), path.join(dist, "index.html"));
 await cp(path.join(root, "404.html"), path.join(dist, "404.html"));
-await cp(path.join(root, "for-james"), path.join(dist, "for-james"), {
-  recursive: true,
-});
+for (const dir of ["james", "for-james"]) {
+  await cp(path.join(root, dir), path.join(dist, dir), { recursive: true });
+}
 await cp(path.join(root, "assets"), path.join(dist, "assets"), { recursive: true });
 
 // ── Custom domain + Pages plumbing ─────────────────────────────
