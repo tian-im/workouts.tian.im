@@ -27,16 +27,6 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../assets/style.css" />
-    <script>
-      // Apply the read-first gate before first paint so the plan never flashes in.
-      try {
-        if (localStorage.getItem("james-plan-read-v1") !== "1") {
-          document.documentElement.classList.add("pre-read");
-        }
-      } catch (e) {
-        /* storage blocked: the gate stays open */
-      }
-    </script>
   </head>
 
   <body class="relative min-h-screen overflow-x-hidden antialiased">
@@ -144,105 +134,69 @@
 
       
       <!-- ───────────────────────── read first ───────────────────────── -->
+      <!-- ───────────────────────── read first ───────────────────────── -->
       <section id="read-first" class="mx-auto max-w-5xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
         <div class="flex items-center gap-2">
           <span class="h-2 w-2 rounded-full bg-lime"></span>
           <p class="eyebrow">Read this first · two minutes</p>
         </div>
         <h2 class="mt-2.5 max-w-2xl text-[1.65rem] font-bold leading-tight sm:text-[2.15rem]">
-          Six rules, then you can start.
+          The short version, before you start.
         </h2>
         <p class="mt-3 max-w-2xl text-[14px] leading-relaxed text-soft">
-          Nothing here is complicated, but none of it is optional either. Read once, tap the button at
-          the bottom, and the sessions unlock.
+          Nothing below is locked — the sessions start right after this. Read this page, then use
+          <span class="font-semibold text-chalk">Contents</span> to jump anywhere. The full rulebook
+          sits at the end if you want detail.
         </p>
 
-        <div class="mt-6 grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
+        <div class="mt-6 grid gap-3 lg:grid-cols-[1.05fr_0.95fr]">
           <div class="card p-4 sm:p-6">
-            <div class="rule border-t-0 pt-0">
-              <span class="num">01</span>
-              <div>
-                <h3 class="text-[15px] font-semibold text-chalk">Compound first — no exceptions</h3>
-                <p class="mt-1 text-[13px] leading-relaxed text-dim">
-                  The first lift of every session is a barbell compound: bench, squat, row, deadlift,
-                  pull-up. It gets your freshest effort, the longest rest (3–4 min) and never goes to
-                  failure. Everything after it is support work.
-                </p>
+            <p class="eyebrow">The three things that matter</p>
+            <div class="mt-3 space-y-3.5">
+              <div class="flex gap-3">
+                <span class="num pt-0.5">01</span>
+                <div>
+                  <h3 class="text-[15px] font-semibold text-chalk">Compounds first, every session</h3>
+                  <p class="mt-0.5 text-[13px] leading-relaxed text-dim">
+                    Bench, squat, row, deadlift, pull-up — first, fresh, and never to failure. The rest
+                    of the session supports them.
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <span class="num pt-0.5">02</span>
+                <div>
+                  <h3 class="text-[15px] font-semibold text-chalk">A rotation, not a calendar</h3>
+                  <p class="mt-0.5 text-[13px] leading-relaxed text-dim">
+                    A → B → C → D → E → rest → repeat. Miss a day and you simply pick up the next
+                    letter; you never restart the week.
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <span class="num pt-0.5">03</span>
+                <div>
+                  <h3 class="text-[15px] font-semibold text-chalk">Never skip Day C</h3>
+                  <p class="mt-0.5 text-[13px] leading-relaxed text-dim">
+                    If the week collapses to three sessions, they are A, C and D. Push, back, hinge —
+                    that trio still moves everything forward.
+                  </p>
+                </div>
               </div>
             </div>
-            <div class="rule">
-              <span class="num">02</span>
-              <div>
-                <h3 class="text-[15px] font-semibold text-chalk">It's a rotation, not a calendar</h3>
-                <p class="mt-1 text-[13px] leading-relaxed text-dim">
-                  Train A → B → C → D → E → rest → repeat. If life eats Tuesday, you don't restart the
-                  week — you do the next letter on the next day you show up. The rotation is the
-                  schedule.
-                </p>
-              </div>
-            </div>
-            <div class="rule">
-              <span class="num">03</span>
-              <div>
-                <h3 class="text-[15px] font-semibold text-chalk">Stop two reps short of failure</h3>
-                <p class="mt-1 text-[13px] leading-relaxed text-dim">
-                  On compounds, finish each set with ~2 reps left in the tank (RIR 2). On isolation
-                  work, 1 rep left is fine. Grinding to failure every set wrecks your next session and
-                  your form.
-                </p>
-              </div>
-            </div>
-            <div class="rule">
-              <span class="num">04</span>
-              <div>
-                <h3 class="text-[15px] font-semibold text-chalk">Add weight by the rule, not by feel</h3>
-                <p class="mt-1 text-[13px] leading-relaxed text-dim">
-                  When all sets hit the top of the rep range with 2 reps in reserve, add
-                  <strong class="text-chalk">2.5 kg</strong> upper body or
-                  <strong class="text-chalk">5 kg</strong> lower body next time. Not before.
-                </p>
-              </div>
-            </div>
-            <div class="rule">
-              <span class="num">05</span>
-              <div>
-                <h3 class="text-[15px] font-semibold text-chalk">Back gets touched three times a week</h3>
-                <p class="mt-1 text-[13px] leading-relaxed text-dim">
-                  Once heavy and horizontal (Day C), once vertical for width (Day E), once as support
-                  on push day (Day A). That frequency is why the back grows faster than anything else
-                  on this plan.
-                </p>
-              </div>
-            </div>
-            <div class="rule border-b border-line">
-              <span class="num">06</span>
-              <div>
-                <h3 class="text-[15px] font-semibold text-chalk">Log every set</h3>
-                <p class="mt-1 text-[13px] leading-relaxed text-dim">
-                  Weight and reps. Progressive overload is the only mechanism that actually builds
-                  muscle — and you can't beat last month if you don't know what last month was.
-                </p>
-              </div>
-            </div>
+            <p class="mt-5 border-t border-line pt-3 text-[12px] leading-relaxed text-mute">
+              Add weight by the rule, not by feel: 2.5 kg upper body and 5 kg lower body once every set
+              hits the top of its rep range with two reps in reserve.
+            </p>
           </div>
 
           <div class="flex flex-col gap-3">
-            <div class="card border-lime/30 bg-[radial-gradient(120%_100%_at_0%_0%,rgba(216,255,71,0.28),transparent_65%)] p-4 sm:p-5">
-              <p class="eyebrow text-lime">The one non-negotiable</p>
-              <p class="mt-2 font-display text-[1.4rem] font-bold leading-tight">Never skip Day C.</p>
-              <p class="mt-2 text-[13px] leading-relaxed text-soft">
-                If the week collapses to three sessions, they are
-                <strong class="text-chalk">A, C and D</strong>. Push, back, hinge. That trio keeps
-                strength moving and still hits the back hard enough to grow.
-              </p>
-            </div>
-
             <div class="card p-4 sm:p-5">
               <p class="eyebrow">First session only</p>
               <h3 class="mt-1.5 text-base font-bold">Find your starting weights</h3>
               <p class="mt-1.5 text-[13px] leading-relaxed text-dim">
-                Don't guess. On each main lift, ramp up in small jumps until a set of 5–6 feels like
-                you have 3 reps left. That's your Week 1 weight. It will feel too easy — good.
+                Ramp up in small jumps until a set of 5–6 feels like you have 3 reps left. That's your
+                Week 1 weight. It will feel too easy — good.
               </p>
               <p class="mt-2.5 font-mono text-[11px] text-mute">Bar × 10 · 40% × 5 · 60% × 3 · 80% × 1 · work sets</p>
             </div>
@@ -262,11 +216,11 @@
         <div id="ack" class="mt-4 card border-lime/40 bg-[radial-gradient(120%_100%_at_0%_0%,rgba(216,255,71,0.38),transparent_72%)] p-5 sm:p-7">
           <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p class="eyebrow text-lime">Acknowledge</p>
+              <p class="eyebrow text-lime">Mark as read</p>
               <h3 class="mt-1.5 font-display text-xl font-bold">That's the briefing.</h3>
               <p class="mt-1.5 max-w-md text-[13px] leading-relaxed text-soft">
-                Tap once and your five sessions appear below. These notes stay available any time from
-                <span class="font-semibold text-chalk">Contents</span>.
+                Nothing is locked either way — this just keeps the page honest about whether you've
+                read it, and jumps you to Session A.
               </p>
             </div>
             <button
@@ -274,16 +228,15 @@
               data-ack
               class="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-lg bg-chalk px-5 text-sm font-semibold text-white transition-colors hover:bg-[#2b3138]"
             >
-              I've read this — show my sessions
+              I've read this — take me to Session A
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </button>
           </div>
           <p data-ack-state class="mt-4 hidden items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-lime">
-            <span aria-hidden="true">✓</span> Read · sessions unlocked
+            <span aria-hidden="true">✓</span> Read
           </p>
         </div>
       </section>
-
 
       <!-- ───────────────────────── sticky bar ───────────────────────── -->
       <div id="session-nav" class="sticky top-0 z-30 border-y border-line bg-void/92 backdrop-blur-md">
@@ -318,7 +271,7 @@
           </div>
         </div>
       </div>
-      <div data-gated>
+      <div>
         <div class="mx-auto max-w-5xl px-4 pb-6 sm:px-6">
 <!-- ───────────────────────── SESSION A ───────────────────────── -->
         <section id="session-a" class="pt-8 sm:pt-12" data-session="A">
@@ -1502,7 +1455,7 @@
               <div class="bg-panel px-3.5 py-4">
                 <p class="font-mono text-[10px] uppercase tracking-wider text-mute">Rest</p>
                 <p class="mt-1 font-display text-base font-bold text-mute sm:text-lg">Off</p>
-                <p class="text-[11px] text-mute">Walk / stretch</p>
+                <p class="text-[11px] text-mute">Stretch 20 min</p>
               </div>
               <div class="bg-panel px-3.5 py-4 ring-1 ring-inset ring-lime/30">
                 <p class="font-mono text-[10px] uppercase tracking-wider text-lime">Day 3</p>
@@ -1817,6 +1770,43 @@
             </div>
           </div>
 
+          <div class="mt-3 card p-4 sm:p-6">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="eyebrow">Once a week · 20 minutes</p>
+                <h3 class="mt-1.5 font-display text-lg font-bold">Stretch &amp; mobility session</h3>
+              </div>
+              <span class="chip hidden shrink-0 sm:inline-flex">Rest day</span>
+            </div>
+            <p class="mt-2 max-w-2xl text-[13px] leading-relaxed text-dim">
+              Not optional. One session a week keeps hips, shoulders and lower back from becoming the
+              reason you miss a block. Do it on a rest day, or straight after Day C.
+            </p>
+            <div class="mt-4 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+              <div class="flex items-baseline justify-between gap-3 border-b border-line pb-1.5">
+                <span class="text-[13px] text-soft">Cat–cow</span><span class="font-mono text-[11px] text-mute">10 slow reps</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-3 border-b border-line pb-1.5">
+                <span class="text-[13px] text-soft">World's greatest stretch</span><span class="font-mono text-[11px] text-mute">5 / side</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-3 border-b border-line pb-1.5">
+                <span class="text-[13px] text-soft">Couch stretch (hip flexor)</span><span class="font-mono text-[11px] text-mute">45 s / side</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-3 border-b border-line pb-1.5">
+                <span class="text-[13px] text-soft">Pigeon pose</span><span class="font-mono text-[11px] text-mute">45 s / side</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-3 border-b border-line pb-1.5">
+                <span class="text-[13px] text-soft">Thoracic opener on a bench</span><span class="font-mono text-[11px] text-mute">10 reps</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-3 border-b border-line pb-1.5">
+                <span class="text-[13px] text-soft">Lat stretch on the rack</span><span class="font-mono text-[11px] text-mute">30 s / side</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-3 sm:col-span-2">
+                <span class="text-[13px] text-soft">Dead hang</span><span class="font-mono text-[11px] text-mute">2 × 20 s</span>
+              </div>
+            </div>
+          </div>
+
           <div class="mt-3 card border-lime/30 bg-[radial-gradient(120%_100%_at_100%_0%,rgba(216,255,71,0.24),transparent_65%)] p-4 sm:p-6">
             <p class="eyebrow text-lime">Non-negotiable</p>
             <p class="mt-2 max-w-3xl text-[13px] leading-relaxed text-fog">
@@ -1826,6 +1816,78 @@
           </div>
         </div>
       </section>
+      <!-- ───────────────────────── rules ───────────────────────── -->
+      <section id="rules" class="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
+        <p class="eyebrow">The rulebook</p>
+        <h2 class="mt-2.5 text-[1.65rem] font-bold leading-tight sm:text-[2rem]">The six rules</h2>
+        <p class="mt-3 max-w-2xl text-[14px] leading-relaxed text-soft">
+          Read once, then come back when something feels off. These are the only rules that matter.
+        </p>
+
+        <div class="mt-6 grid gap-3 md:grid-cols-2">
+          <div class="card p-4 sm:p-5">
+            <span class="num">01</span>
+            <h3 class="mt-1.5 text-[15px] font-semibold text-chalk">Compound first — no exceptions</h3>
+            <p class="mt-1 text-[13px] leading-relaxed text-dim">
+              The first lift of every session is a barbell compound: bench, squat, row, deadlift,
+              pull-up. It gets your freshest effort, the longest rest (3–4 min) and never goes to
+              failure. Everything after it is support work.
+            </p>
+          </div>
+          <div class="card p-4 sm:p-5">
+            <span class="num">02</span>
+            <h3 class="mt-1.5 text-[15px] font-semibold text-chalk">It's a rotation, not a calendar</h3>
+            <p class="mt-1 text-[13px] leading-relaxed text-dim">
+              Train A → B → C → D → E → rest → repeat. If life eats Tuesday, you don't restart the
+              week — you do the next letter on the next day you show up. The rotation is the schedule.
+            </p>
+          </div>
+          <div class="card p-4 sm:p-5">
+            <span class="num">03</span>
+            <h3 class="mt-1.5 text-[15px] font-semibold text-chalk">Stop two reps short of failure</h3>
+            <p class="mt-1 text-[13px] leading-relaxed text-dim">
+              On compounds, finish each set with ~2 reps left in the tank (RIR 2). On isolation work,
+              1 rep left is fine — no need to grind to failure, the muscle still grows. Grinding every
+              set wrecks your next session and your form.
+            </p>
+          </div>
+          <div class="card p-4 sm:p-5">
+            <span class="num">04</span>
+            <h3 class="mt-1.5 text-[15px] font-semibold text-chalk">Add weight by the rule, not by feel</h3>
+            <p class="mt-1 text-[13px] leading-relaxed text-dim">
+              When all sets hit the top of the rep range with 2 reps in reserve, add
+              <strong class="text-chalk">2.5 kg</strong> upper body or
+              <strong class="text-chalk">5 kg</strong> lower body next time. Not before.
+            </p>
+          </div>
+          <div class="card p-4 sm:p-5">
+            <span class="num">05</span>
+            <h3 class="mt-1.5 text-[15px] font-semibold text-chalk">Back gets touched three times a week</h3>
+            <p class="mt-1 text-[13px] leading-relaxed text-dim">
+              Once heavy and horizontal (Day C), once vertical for width (Day E), once as support on
+              push day (Day A). That frequency is why the back grows faster than anything else on this
+              plan.
+            </p>
+          </div>
+          <div class="card p-4 sm:p-5">
+            <span class="num">06</span>
+            <h3 class="mt-1.5 text-[15px] font-semibold text-chalk">Log every set</h3>
+            <p class="mt-1 text-[13px] leading-relaxed text-dim">
+              Weight and reps. Progressive overload is the only mechanism that actually builds muscle
+              — and you can't beat last month if you don't know what last month was.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-3 card border-lime/30 bg-[radial-gradient(120%_100%_at_0%_0%,rgba(216,255,71,0.24),transparent_65%)] p-4 sm:p-5">
+          <p class="eyebrow text-lime">Non-negotiable</p>
+          <p class="mt-1.5 max-w-3xl text-[13px] leading-relaxed text-soft">
+            Warm up before the first work set and cool down after the last one. Train hard, but never
+            at the cost of a joint — an injury costs more weeks than any missed PR.
+          </p>
+        </div>
+      </section>
+
 
 
 <!-- ───────────────────────── faq ───────────────────────── -->
@@ -2000,6 +2062,137 @@
           </div>
         </div>
       </section>
+      <!-- ───────────────────────── calculators ───────────────────────── -->
+      <section id="calculators" class="border-t border-line bg-panel-2/60">
+        <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
+          <p class="eyebrow">Appendix · Calculators</p>
+          <h2 class="mt-2.5 text-[1.65rem] font-bold leading-tight sm:text-[2rem]">Numbers, if you want them</h2>
+          <p class="mt-3 max-w-2xl text-[14px] leading-relaxed text-soft">
+            Estimates, not tests. Use the 1RM to pick working weights, and the energy numbers to know
+            roughly what to eat. Nothing is saved.
+          </p>
+
+          <div class="mt-6 grid gap-3 lg:grid-cols-2">
+            <!-- 1RM -->
+            <div class="card p-4 sm:p-6">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="eyebrow">One-rep max</p>
+                  <h3 class="mt-1 font-display text-lg font-bold">Estimate a 1RM</h3>
+                </div>
+                <span class="chip hidden sm:inline-flex">Epley</span>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-3">
+                <label class="calc-field" for="orm-weight">
+                  <span class="eyebrow">Weight (kg)</span>
+                  <input class="calc-input" id="orm-weight" type="number" inputmode="decimal" min="0" max="500" step="2.5" placeholder="80" data-calc="orm-weight" />
+                </label>
+                <label class="calc-field" for="orm-reps">
+                  <span class="eyebrow">Reps</span>
+                  <input class="calc-input" id="orm-reps" type="number" inputmode="numeric" min="1" max="12" step="1" placeholder="5" data-calc="orm-reps" />
+                </label>
+              </div>
+
+              <div class="mt-4 rounded-lg bg-panel-2 p-4">
+                <p class="eyebrow">Estimated 1RM</p>
+                <p class="mt-1 font-display text-3xl font-bold leading-none">
+                  <span data-out="orm">—</span><span class="ml-1.5 font-sans text-xs font-normal text-mute">kg</span>
+                </p>
+                <p class="mt-2 text-[11.5px] leading-relaxed text-mute">
+                  Reliable from 1–12 reps. Past that the formula drifts; use a heavier set instead.
+                </p>
+              </div>
+
+              <div class="mt-4">
+                <p class="eyebrow">Working weights</p>
+                <ul class="mt-2 space-y-1.5 font-mono text-[12px]">
+                  <li class="flex justify-between border-b border-line pb-1.5"><span class="text-soft">85% · 5–6 reps</span><span data-out="orm-85">—</span></li>
+                  <li class="flex justify-between border-b border-line pb-1.5"><span class="text-soft">80% · 6–8 reps</span><span data-out="orm-80">—</span></li>
+                  <li class="flex justify-between border-b border-line pb-1.5"><span class="text-soft">75% · 8–10 reps</span><span data-out="orm-75">—</span></li>
+                  <li class="flex justify-between"><span class="text-soft">70% · 10–12 reps</span><span data-out="orm-70">—</span></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Energy + protein -->
+            <div class="card p-4 sm:p-6">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="eyebrow">Energy & protein</p>
+                  <h3 class="mt-1 font-display text-lg font-bold">BMR, TDEE and daily protein</h3>
+                </div>
+                <span class="chip hidden sm:inline-flex">Mifflin–St Jeor</span>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-3">
+                <label class="calc-field" for="calc-sex">
+                  <span class="eyebrow">Sex</span>
+                  <select class="calc-input" id="calc-sex" data-calc="sex">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </label>
+                <label class="calc-field" for="calc-age">
+                  <span class="eyebrow">Age</span>
+                  <input class="calc-input" id="calc-age" type="number" inputmode="numeric" min="14" max="90" step="1" placeholder="19" data-calc="age" />
+                </label>
+                <label class="calc-field" for="calc-height">
+                  <span class="eyebrow">Height (cm)</span>
+                  <input class="calc-input" id="calc-height" type="number" inputmode="numeric" min="120" max="230" step="1" placeholder="178" data-calc="height" />
+                </label>
+                <label class="calc-field" for="calc-weight">
+                  <span class="eyebrow">Weight (kg)</span>
+                  <input class="calc-input" id="calc-weight" type="number" inputmode="decimal" min="30" max="200" step="0.5" placeholder="75" data-calc="weight" />
+                </label>
+                <label class="calc-field col-span-2" for="calc-activity">
+                  <span class="eyebrow">Activity</span>
+                  <select class="calc-input" id="calc-activity" data-calc="activity">
+                    <option value="1.2">Sedentary — desk job, no training</option>
+                    <option value="1.375">Light — 1–3 sessions/week</option>
+                    <option value="1.55" selected>Moderate — 3–5 sessions/week</option>
+                    <option value="1.725">High — 6–7 sessions/week</option>
+                    <option value="1.9">Very high — physical job + training</option>
+                  </select>
+                </label>
+              </div>
+
+              <dl class="mt-4 grid grid-cols-2 gap-2">
+                <div class="rounded-lg bg-panel-2 p-3">
+                  <dt class="eyebrow">BMR</dt>
+                  <dd class="mt-1 font-display text-xl font-bold leading-none">
+                    <span data-out="bmr">—</span><span class="ml-1 font-sans text-[11px] font-normal text-mute">kcal</span>
+                  </dd>
+                </div>
+                <div class="rounded-lg bg-panel-2 p-3">
+                  <dt class="eyebrow">TDEE</dt>
+                  <dd class="mt-1 font-display text-xl font-bold leading-none">
+                    <span data-out="tdee">—</span><span class="ml-1 font-sans text-[11px] font-normal text-mute">kcal</span>
+                  </dd>
+                </div>
+                <div class="rounded-lg bg-panel-2 p-3">
+                  <dt class="eyebrow">Lean gain</dt>
+                  <dd class="mt-1 font-display text-xl font-bold leading-none text-lime">
+                    <span data-out="surplus">—</span><span class="ml-1 font-sans text-[11px] font-normal text-mute">kcal</span>
+                  </dd>
+                </div>
+                <div class="rounded-lg bg-panel-2 p-3">
+                  <dt class="eyebrow">Protein</dt>
+                  <dd class="mt-1 font-display text-xl font-bold leading-none">
+                    <span data-out="protein">—</span><span class="ml-1 font-sans text-[11px] font-normal text-mute">g</span>
+                  </dd>
+                </div>
+              </dl>
+
+              <p class="mt-3 text-[12px] leading-relaxed text-mute">
+                Protein is 1.6–2.2 g per kg of bodyweight. Lean gain adds 250 kcal to TDEE — the plan
+                recommends 200–300 above maintenance.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
 
 <!-- ───────────────────────── closing ───────────────────────── -->
@@ -2068,7 +2261,7 @@
 
         <nav class="detail-scroll px-2 sm:px-3">
           <p data-toc-note class="mx-3 mb-2 rounded-lg bg-panel-2 px-3 py-2 text-[11.5px] leading-relaxed text-soft">
-            Sessions unlock once you finish the briefing at the top of the page.
+            New here? The two-minute briefing at the top is worth reading first. Nothing is locked.
           </p>
           <p class="eyebrow px-3 pb-1 pt-1">Start</p>
           <a href="#summary" class="toc-link" data-toc-link>Summary</a>
@@ -2087,10 +2280,12 @@
           <a href="#progression" class="toc-link" data-toc-link>8-week progression</a>
           <a href="#back" class="toc-link" data-toc-link>Back playbook</a>
 
-          <p class="eyebrow px-3 pb-1 pt-4">Appendix</p>
+          <p class="eyebrow px-3 pb-1 pt-4">Reference</p>
+          <a href="#rules" class="toc-link" data-toc-link>The six rules</a>
           <a href="#recovery" class="toc-link" data-toc-link>Fuel & recovery</a>
           <a href="#faq" class="toc-link" data-toc-link>FAQ</a>
           <a href="#appendix" class="toc-link" data-toc-link>Reference card</a>
+          <a href="#calculators" class="toc-link" data-toc-link>Calculators</a>
 
           <div class="mt-4 flex items-center justify-between gap-3 border-t border-line px-3 pb-2 pt-3">
             <span class="font-mono text-[11px] text-mute" data-week-label>0 sets logged</span>
@@ -2100,6 +2295,7 @@
       </div>
     </dialog>
 
+    <script src="../assets/calc.js" defer></script>
     <script src="../assets/app.js" defer></script>
   </body>
 </html>

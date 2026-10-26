@@ -503,23 +503,7 @@
     box-shadow: inset 2px 0 0 var(--color-lime);
   }
 
-  .toc-link[data-locked="true"] {
-    opacity: 0.55;
-  }
-
-  .toc-link[data-locked="true"]:hover {
-    background: var(--color-panel-2);
-    color: var(--color-soft);
-  }
-
-  /* Read-first gate: closed until the briefing is acknowledged */
-  html.pre-read [data-gated] {
-    display: none;
-  }
-
-  html.pre-read #session-nav {
-    display: none;
-  }
+  /* Read-first is a prompt, never a lock: nothing on the page is hidden. */
 
   .detail-video {
     display: inline-flex;
@@ -541,6 +525,49 @@
   .stat {
     background: var(--color-panel);
     padding: 1rem 1.1rem;
+  }
+
+  /* Calculators ---------------------------------------------------- */
+  .calc-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .calc-input {
+    width: 100%;
+    height: 2.75rem;
+    background: var(--color-panel);
+    border: 1.5px solid var(--color-line);
+    border-radius: 0.55rem;
+    padding: 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-chalk);
+    transition:
+      border-color 140ms ease,
+      box-shadow 140ms ease;
+  }
+
+  .calc-input:hover {
+    border-color: var(--color-faint);
+  }
+
+  .calc-input:focus {
+    border-color: var(--color-lime);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-highlight) 45%, transparent);
+  }
+
+  .calc-input::-webkit-outer-spin-button,
+  .calc-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .calc-input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
   }
 }
 
@@ -671,10 +698,6 @@
   }
 
   .print-only {
-    display: block !important;
-  }
-
-  html.pre-read [data-gated] {
     display: block !important;
   }
 

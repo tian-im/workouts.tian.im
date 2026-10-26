@@ -8,13 +8,16 @@ Training plans for the nephews. Static site, Tailwind CSS, deployed to GitHub Pa
 
 ```
 for-james/index.html   The plan itself (sessions, rotation, progression, references)
-assets/app.js          Set tracker (localStorage), detail sheet, scroll-spy
+assets/app.js          Set tracker (localStorage), sheets, scroll-spy, calculator wiring
+assets/calc.js         Pure calculation functions (1RM, BMR, TDEE, protein)
 src/input.css          Tailwind entry + design tokens + component classes
 public/CNAME           Custom domain written into the build
 scripts/build.mjs      Copies pages, compiles Tailwind into dist/
+scripts/calc.test.mjs  Unit tests for assets/calc.js
 .github/workflows/     Build + deploy to Pages on push to develop or main
 index.html             Root redirect → /for-james/
 404.html               Not-found page
+AGENTS.md              Project rules for contributors and agents
 ```
 
 ## Local development
@@ -23,6 +26,7 @@ index.html             Root redirect → /for-james/
 npm install
 npm run dev      # builds dist/ and serves it at http://localhost:3000
 npm run build    # production build into dist/
+npm test         # calculation unit tests
 ```
 
 `npm run dev` uses `npx serve dist`. If port 3000 is taken, pass another one with
@@ -46,13 +50,16 @@ Repo settings needed once:
 ## Page structure
 
 - **Summary** — hero, key numbers, entry point.
-- **Read this first** — the six rules plus the non-negotiables. The plan below is gated until
-  the acknowledgement button is pressed (`localStorage["james-plan-read-v1"]`). Deep links into a
-  session unlock it automatically; print always shows everything.
+- **Read this first** — a two-minute briefing. Nothing is gated: the sessions are always reachable,
+  and the acknowledgement button only records that it's been read (`localStorage["james-plan-read-v1"]`)
+  before jumping to Session A.
 - **Sessions A–E** — the plan itself, with the tracker.
 - **Progress** — at-a-glance bars for each session, fed by the same state.
 - **Rotation / Progression / Back playbook** — how the programme works.
-- **Fuel & recovery, FAQ, Appendix** — reference material.
+- **Fuel & recovery** — including the weekly stretch/mobility session.
+- **The six rules** — deliberately placed below the plan.
+- **FAQ, Reference card, Calculators** — 1RM, BMR, TDEE and protein targets, powered by
+  `assets/calc.js`.
 
 **Contents** (the hamburger in the header and in the sticky bar) opens the table of contents:
 bottom sheet on phones, left drawer on desktop. Tapping an entry jumps instantly to that section
@@ -75,7 +82,7 @@ adding a card **and** an entry keyed to the same id.
 
 ### Tracking data
 
-Two keys, both local-only:
+Two local-only keys:
 
 - `james-plan-v1` — `{ weights: { A1: 60 }, done: { A1: [true, false, false] } }`
 - `james-plan-read-v1` — `"1"` once the briefing is acknowledged

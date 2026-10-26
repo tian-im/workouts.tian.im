@@ -23,7 +23,7 @@ await cp(path.join(root, "404.html"), path.join(dist, "404.html"));
 await cp(path.join(root, "for-james"), path.join(dist, "for-james"), {
   recursive: true,
 });
-await cp(path.join(root, "assets", "app.js"), path.join(dist, "assets", "app.js"));
+await cp(path.join(root, "assets"), path.join(dist, "assets"), { recursive: true });
 
 // ── Custom domain + Pages plumbing ─────────────────────────────
 await cp(path.join(root, "public", "CNAME"), path.join(dist, "CNAME"));

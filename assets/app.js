@@ -760,26 +760,10 @@
   const ackState = document.querySelector("[data-ack-state]");
   const startLink = document.querySelector("[data-start]");
   const startLabel = document.querySelector("[data-start-label]");
-  const ackCard = document.getElementById("ack");
-
-  const isPreRead = () => document.documentElement.classList.contains("pre-read");
 
   function applyGate(acked) {
-    document.documentElement.classList.toggle("pre-read", !acked);
-
-    tocLinks.forEach((link) => {
-      const target = document.querySelector(link.getAttribute("href"));
-      const gated = target && target.closest("[data-gated]");
-      if (!acked && gated) link.dataset.locked = "true";
-      else delete link.dataset.locked;
-    });
-
     const tocNote = document.querySelector("[data-toc-note]");
     if (tocNote) tocNote.hidden = acked;
-
-    document.querySelectorAll("[data-tab]").forEach((tab) => {
-      tab.setAttribute("aria-disabled", acked ? "false" : "true");
-    });
 
     if (startLink) {
       startLink.setAttribute("href", acked ? "#session-a" : "#read-first");
@@ -804,15 +788,6 @@
 
   if (ackBtn) ackBtn.addEventListener("click", () => acknowledge());
 
-  // Tabs are locked until the briefing is acknowledged.
-  document.querySelectorAll(".day-tab").forEach((tab) => {
-    tab.addEventListener("click", (e) => {
-      if (!isPreRead()) return;
-      e.preventDefault();
-      if (ackCard) ackCard.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-  });
-
 
   /* ── Contents navigation ────────────────────────────────────── */
   tocLinks.forEach((link) => {
@@ -823,11 +798,6 @@
       if (!target) return;
 
       await tocSheet.close(true);
-
-      if (isPreRead() && target.closest("[data-gated]")) {
-        if (ackCard) ackCard.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-      }
 
       // Contents jumps instantly: smooth scrolling across 13,000 px feels broken.
       jumpTo(target);
@@ -843,6 +813,63 @@
     window.scrollTo(0, Math.max(0, top));
     root.style.scrollBehavior = prev;
     updateActive();
+  }
+
+  /* ── Calculators ────────────────────────────────────────────── */
+  const calcRoot = document.getElementById("calculators");
+
+  if (calcRoot && window.Calc) {
+    const field = (name) => calcRoot.querySelector('[data-calc="' + name + '"]');
+    const out = (name) => calcRoot.querySelector('[data-out="' + name + '"]');
+    const num = (name) => {
+      const el = field(name);
+      return el ? Number(el.value) : NaN;
+    };
+    const fmt = (n, digits = 0) =>
+      n == null || !Number.isFinite(n)
+        ? "—"
+        : n.toLocaleString("en-GB", {
+            minimumFractionDigits: digits,
+            maximumFractionDigits: digits,
+          });
+    const set = (name, text) => {
+      const el = out(name);
+      if (!el) return;
+      el.textContent = text;
+      el.classList.toggle("text-faint", text === "—");
+    };
+
+    function updateCalcs() {
+      const oneRM = Calc.estimate1RM(num("orm-weight"), num("orm-reps"));
+      set("orm", oneRM ? fmt(oneRM, 1) : "—");
+
+      [85, 80, 75, 70].forEach((pct) => {
+        const weight = oneRM ? Calc.roundTo((oneRM * pct) / 100, 2.5) : null;
+        set("orm-" + pct, weight ? fmt(weight, 1) + " kg" : "—");
+      });
+
+      const bmr = Calc.bmrMifflin({
+        sex: field("sex") ? field("sex").value : "male",
+        weightKg: num("weight"),
+        heightCm: num("height"),
+        age: num("age"),
+      });
+      const tdeeValue = bmr ? Calc.tdee(bmr, field("activity") ? field("activity").value : 1.55) : null;
+      const protein = Calc.proteinRange(num("weight"));
+      const surplus = tdeeValue ? Calc.leanGainCalories(tdeeValue) : null;
+
+      set("bmr", bmr ? fmt(Math.round(bmr / 5) * 5) : "—");
+      set("tdee", tdeeValue ? fmt(Math.round(tdeeValue / 10) * 10) : "—");
+      set("surplus", surplus ? fmt(Math.round(surplus / 10) * 10) : "—");
+      set("protein", protein ? fmt(protein.min) + "–" + fmt(protein.max) : "—");
+    }
+
+    calcRoot.querySelectorAll("[data-calc]").forEach((el) => {
+      el.addEventListener("input", updateCalcs);
+      el.addEventListener("change", updateCalcs);
+    });
+
+    updateCalcs();
   }
 
   /* ── Scroll spy ─────────────────────────────────────────────── */
@@ -894,23 +921,17 @@
   window.addEventListener("resize", queueSpy);
 
   /* ── Init ───────────────────────────────────────────────────── */
-  let startAcked = readAck();
   let deepLink = null;
 
-  // Landing on a deep link into the plan counts as intent to start.
   if (location.hash && location.hash.length > 1) {
     try {
-      const target = document.querySelector(location.hash);
-      if (target && target.closest("[data-gated]")) {
-        startAcked = true;
-        deepLink = target;
-      }
+      deepLink = document.querySelector(location.hash);
     } catch {
       /* malformed hash */
     }
   }
 
-  applyGate(startAcked);
+  applyGate(readAck());
   render();
   updateActive();
 
