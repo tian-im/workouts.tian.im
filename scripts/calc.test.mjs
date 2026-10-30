@@ -1,8 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-await import("../assets/calc.js");
-const {
+import {
   estimate1RM,
   percentageTable,
   bmrMifflin,
@@ -10,7 +9,7 @@ const {
   proteinRange,
   leanGainCalories,
   roundTo,
-} = globalThis.Calc;
+} from "../src/lib/calc.js";
 
 test("Epley 1RM", () => {
   assert.equal(estimate1RM(100, 1), 100);
