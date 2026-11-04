@@ -3,7 +3,7 @@ import { toneOf } from "../lib/tones.js";
 import { Chip } from "./ui.jsx";
 import ExerciseCard from "./ExerciseCard.jsx";
 
-export default function SessionSection({ session, onOpenDetails }) {
+export default function SessionSection({ session, onStartRest }) {
   const { stats, resetSession } = useTracker();
   const progress = stats.perSession[session.letter] || { done: 0, total: 0, pct: 0 };
   const tone = toneOf(session.accent);
@@ -67,7 +67,7 @@ export default function SessionSection({ session, onOpenDetails }) {
             key={exercise.id}
             exercise={exercise}
             index={index}
-            onOpenDetails={onOpenDetails}
+            onStartRest={onStartRest}
           />
         ))}
       </div>

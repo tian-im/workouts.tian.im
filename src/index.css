@@ -184,30 +184,98 @@
     color: var(--color-dim);
   }
 
-  .ex-more {
-    flex: none;
+  /* Rest time is a button: clicking it starts the timer */
+  .rest-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 1.6rem;
+    margin: 0 -0.3rem;
+    padding: 0 0.3rem;
+    border: 0;
+    border-bottom: 1px dotted var(--color-line);
+    border-radius: 0.3rem;
+    background: transparent;
+    color: var(--color-dim);
+    font: inherit;
+    cursor: pointer;
+    transition:
+      color 140ms ease,
+      background 140ms ease,
+      border-color 140ms ease;
+  }
+
+  .rest-trigger:hover {
+    color: var(--color-chalk);
+    background: var(--color-panel-2);
+    border-bottom-color: var(--color-faint);
+  }
+
+  .rest-timer {
+    position: fixed;
+    z-index: 60;
+    left: 50%;
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(26rem, calc(100vw - 1.5rem));
+    padding: 0.7rem 0.85rem;
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: 0.9rem;
+    box-shadow: 0 16px 40px -20px rgb(20 22 26 / 0.45);
+    animation: rest-timer-in 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .rest-timer[data-finished="true"] {
+    border-color: color-mix(in srgb, var(--color-lime) 45%, white);
+    background: color-mix(in srgb, var(--color-highlight) 20%, white);
+  }
+
+  .rest-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 999px;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.5rem;
     border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
     background: var(--color-panel);
-    color: var(--color-mute);
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    line-height: 1;
+    color: var(--color-dim);
     transition:
-      border-color 140ms ease,
       color 140ms ease,
+      border-color 140ms ease,
       background 140ms ease;
   }
 
-  .ex-more:hover {
-    border-color: var(--color-lime);
-    color: var(--color-lime);
-    background: color-mix(in srgb, var(--color-highlight) 18%, white);
+  .rest-button:hover {
+    color: var(--color-chalk);
+    border-color: var(--color-faint);
+  }
+
+  .rest-button-solid {
+    background: var(--color-chalk);
+    border-color: var(--color-chalk);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0 0.9rem;
+  }
+
+  .rest-button-solid:hover {
+    background: #2b3138;
+    color: #fff;
+  }
+
+  @keyframes rest-timer-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
   }
 
   .ex-track {
@@ -658,6 +726,7 @@
   }
 
   .page-grid,
+  .rest-timer,
   .no-print,
   #session-nav,
   .detail-dialog,

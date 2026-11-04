@@ -22,8 +22,8 @@ hard requirements, not suggestions.
 - Interactive styling for native controls lives in CSS component classes (`.set-dot`,
   `.weight-input`, `.toc-link`, `.calc-input`, `.detail-*`) because those states are hard to express
   cleanly with utilities alone.
-- Never render raw HTML strings (`dangerouslySetInnerHTML`). Reference copy is structured data in
-  `src/data/panels.js`.
+- Never render raw HTML strings (`dangerouslySetInnerHTML`). Copy lives in components or in the
+  data modules under `src/data/`.
 
 ### 2. Compound movement first — including warm-up sets
 
@@ -52,8 +52,8 @@ hard requirements, not suggestions.
 - **At least one stretch/mobility session per week.** Scheduled in Recovery (`Stretch & mobility
   session`, ~20 min). If you restructure the week, keep it.
 - Stop a set when form changes — technique failure is real failure.
-- Every exercise needs an easier regression and a harder progression (`src/data/details.js`; shown in
-  the detail sheet).
+- Every exercise links out to a form-video search (`src/lib/links.js`) and states its rest period;
+  rest text is a button that starts the rest timer.
 - Load jumps stay conservative: 2.5 kg upper / 5 kg lower, no maxing outside the week 8 test.
 
 ### 5. Calculation functions
@@ -106,8 +106,12 @@ When adding a section:
 - State that survives reloads goes through `TrackerProvider` (`src/state/TrackerContext.jsx`) or
   `useAcknowledged`; everything else is local `useState`.
 - Never store derived data: session progress is computed from `state.done` in `stats`.
-- Sheets are one `Sheet` component with `side="left" | "right"`. Both are native `<dialog>`; do not
-  reimplement focus trapping. `closeNow()` exists for jumps that must not wait for the animation.
+- The Contents sheet uses `Sheet` (`side="left"`): a native `<dialog>`; do not reimplement focus
+  trapping. `closeNow()` exists for jumps that must not wait for the animation.
+- The rest timer lives in `useRestTimer` (end-timestamp based, so background throttling does not
+  drift) and renders once in `App.jsx`; exercise cards only call `onStartRest(seconds, name)`.
+  It rings with Web Audio (`lib/rest.js`) — no audio files, and `primeAudio()` must be called from
+  the click that starts the timer.
 - Weight inputs are uncontrolled (`defaultValue` + `resetToken`) so typing `62.` does not turn into
   `625`. Calculator inputs are controlled strings — that is fine because they are not reformatted.
 - Import order: react → data/lib → state/hooks → components → sections.
@@ -134,21 +138,20 @@ npm test           # calculation unit tests
 | `james/index.html` | Vite entry: meta, fonts, `#root` |
 | `src/App.jsx` | page composition, sheet state, handlers |
 | `src/data/plan.js` | sessions, exercises, prescriptions, TOC + section order |
-| `src/data/details.js` | per-exercise why / mistakes / easier / harder |
-| `src/data/panels.js` | structured reference copy for the detail sheet |
 | `src/state/TrackerContext.jsx` | sets, weights, persistence, derived stats |
-| `src/hooks/` | `useAcknowledged`, `useActiveSection` |
-| `src/components/` | `ui.jsx`, sheets, header, sticky bar, exercise/session cards |
+| `src/hooks/` | `useAcknowledged`, `useActiveSection`, `useRestTimer` |
+| `src/components/` | `ui.jsx`, `Sheet`/`ContentsSheet`, `RestTimer`, header, sticky bar, cards |
 | `src/sections/` | one component per page section |
-| `src/lib/` | `calc.js`, `nav.js`, `tones.js` |
+| `src/lib/` | `calc.js`, `nav.js`, `tones.js`, `rest.js`, `links.js` |
 | `src/index.css` | design tokens + component classes + print styles |
 | `public/` | redirects, 404, CNAME |
 | `scripts/calc.test.mjs` | node:test suite for `calc.js` |
 
 ## Editing the plan
 
-- Exercises live in `src/data/plan.js`; the detail sheet entry keyed by the same id lives in
-  `src/data/details.js`. Missing entry → the `i` button opens an empty panel.
+- Exercises live in `src/data/plan.js`. The YouTube link is derived from the name (`lib/links.js`),
+  so keep names close to the common exercise name.
+- Rest notes must stay parseable (`rest 3 min`, `rest 90 s`, `rest 3–4 min`) — the timer reads them.
 - Session totals are derived from `sets`; don't hardcode counts anywhere.
 - Tracking data: `localStorage["james-plan-v1"]`; read acknowledgement:
   `localStorage["james-plan-read-v1"]`. Never send either anywhere.
@@ -158,6 +161,6 @@ npm test           # calculation unit tests
 1. `npm run build && npm test`
 2. Check `/james/` at 320, 390, 768 and 1440 — no overflow, sticky bar not covering headings.
 3. Clear site data and reload: the briefing appears first, sessions are still reachable.
-4. Open Contents → jump to a section; open an exercise `i` → check notes and close with Esc.
+4. Open Contents → jump to a section; click a rest time → timer starts, +30s works, stop clears it.
 5. Print preview: no controls, no ack card, sessions and appendix present.
 6. Commit with a message that says what changed for James, not just which files moved.

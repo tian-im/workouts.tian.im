@@ -10,6 +10,8 @@ import {
   leanGainCalories,
   roundTo,
 } from "../src/lib/calc.js";
+import { parseRestSeconds, formatClock } from "../src/lib/rest.js";
+import { youtubeSearch } from "../src/lib/links.js";
 
 test("Epley 1RM", () => {
   assert.equal(estimate1RM(100, 1), 100);
@@ -58,4 +60,27 @@ test("protein per kilo of bodyweight", () => {
   assert.deepEqual(proteinRange(60, { min: 2, max: 2.4 }), { min: 120, max: 144 });
   assert.equal(proteinRange(0), null);
   assert.equal(proteinRange("heavy"), null);
+});
+
+test("rest prescriptions parse to seconds", () => {
+  assert.equal(parseRestSeconds("rest 3 min"), 180);
+  assert.equal(parseRestSeconds("rest 90 s"), 90);
+  assert.equal(parseRestSeconds("rest 45 s"), 45);
+  assert.equal(parseRestSeconds("rest 3–4 min"), 210);
+  assert.equal(parseRestSeconds("rest 2–3 min"), 150);
+  assert.equal(parseRestSeconds("RIR 2"), null);
+  assert.equal(parseRestSeconds("1 s squeeze"), null);
+});
+
+test("clock formatting", () => {
+  assert.equal(formatClock(180), "3:00");
+  assert.equal(formatClock(65), "1:05");
+  assert.equal(formatClock(0), "0:00");
+});
+
+test("youtube search uses the plain lift name", () => {
+  assert.ok(youtubeSearch("Barbell Row").includes("Barbell%20Row%20form"));
+  assert.ok(youtubeSearch("Deadlift — Conventional or Trap Bar").includes("Deadlift%20form"));
+  assert.ok(youtubeSearch("Seal Row / Chest-Supported T-Bar Row").includes("Seal%20Row%20form"));
+  assert.ok(youtubeSearch("Weighted Pull-Up or Lat Pulldown").includes("Weighted%20Pull-Up%20form"));
 });

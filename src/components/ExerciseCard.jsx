@@ -1,8 +1,10 @@
 import { useTracker } from "../state/TrackerContext.jsx";
+import { youtubeSearch } from "../lib/links.js";
 import { MonoMeta } from "./ui.jsx";
+import { ExternalIcon } from "./icons.jsx";
 
 /** One exercise: prescription, cue, weight input and set toggles. */
-export default function ExerciseCard({ exercise, index, onOpenDetails }) {
+export default function ExerciseCard({ exercise, index, onStartRest }) {
   const { state, toggleSet, setWeight, resetToken } = useTracker();
   const marks = state.done[exercise.id] || [];
   const storedWeight = state.weights[exercise.id];
@@ -12,22 +14,29 @@ export default function ExerciseCard({ exercise, index, onOpenDetails }) {
       <div className="flex gap-2.5">
         <span className="ex-num">{String(index + 1).padStart(2, "0")}</span>
         <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="ex-title">{exercise.name}</h3>
-            <button
-              type="button"
-              className="ex-more no-print"
-              data-detail={`ex:${exercise.id}`}
-              aria-label={`${exercise.name} — details`}
-              aria-haspopup="dialog"
-              onClick={() => onOpenDetails(exercise.id)}
+          <h3 className="ex-title">
+            <a
+              className="underline decoration-transparent decoration-1 underline-offset-[3px] transition-colors hover:decoration-line"
+              href={youtubeSearch(exercise.name)}
+              target="_blank"
+              rel="noopener"
+              aria-label={`${exercise.name} — watch form videos on YouTube`}
             >
-              i
-            </button>
-          </div>
+              {exercise.name}
+              <span className="ml-1.5 inline-block align-baseline text-faint">
+                <ExternalIcon size={11} />
+              </span>
+            </a>
+          </h3>
 
           <p className="ex-cue">{exercise.cue}</p>
-          <MonoMeta prescription={exercise.prescription} notes={exercise.notes} />
+          <MonoMeta
+            prescription={exercise.prescription}
+            notes={exercise.notes}
+            onStartRest={
+              onStartRest ? (seconds) => onStartRest(seconds, exercise.name) : undefined
+            }
+          />
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import { Chip, Stat } from "../components/ui.jsx";
 import { ArrowDownIcon } from "../components/icons.jsx";
 
-export default function Hero({ acked, onStart, onOpenPanel }) {
+export default function Hero({ acked, onStart }) {
   return (
     <section id="summary" className="mx-auto max-w-5xl px-4 pb-8 pt-8 sm:px-6 sm:pt-14">
       <p className="eyebrow">For James · Full gym</p>
@@ -37,13 +37,6 @@ export default function Hero({ acked, onStart, onOpenPanel }) {
           <span data-start-label>{acked ? "Start with Session A" : "Read the briefing"}</span>
           <ArrowDownIcon />
         </a>
-        <button
-          type="button"
-          onClick={() => onOpenPanel("howto")}
-          className="inline-flex h-11 items-center gap-1 text-[13px] font-medium text-dim underline decoration-line decoration-1 underline-offset-4 transition-colors hover:text-chalk sm:rounded-lg sm:border sm:border-line sm:px-4 sm:no-underline sm:hover:border-faint"
-        >
-          How to use this page
-        </button>
       </div>
 
       <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-9 sm:grid-cols-4">

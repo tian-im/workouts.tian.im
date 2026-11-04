@@ -1,4 +1,6 @@
 import { toneOf } from "../lib/tones.js";
+import { parseRestSeconds } from "../lib/rest.js";
+import { ClockIcon } from "./icons.jsx";
 
 export function Eyebrow({ children, className = "" }) {
   return <p className={`eyebrow ${className}`}>{children}</p>;
@@ -85,16 +87,31 @@ export function Callout({ tone = "lime", className = "", children }) {
   );
 }
 
-export function MonoMeta({ prescription, notes = [] }) {
+export function MonoMeta({ prescription, notes = [], onStartRest }) {
   return (
     <div className="ex-meta">
       <span className="prescription">{prescription}</span>
-      {notes.map((note) => (
-        <span key={note} className="flex items-center gap-2.5">
-          <span className="sep">·</span>
-          <span>{note}</span>
-        </span>
-      ))}
+      {notes.map((note) => {
+        const seconds = onStartRest ? parseRestSeconds(note) : null;
+        return (
+          <span key={note} className="flex items-center gap-2.5">
+            <span className="sep">·</span>
+            {seconds ? (
+              <button
+                type="button"
+                className="rest-trigger no-print"
+                onClick={() => onStartRest(seconds)}
+                aria-label={`Start a ${note.replace(/^rest\s+/i, "")} rest timer`}
+              >
+                <ClockIcon />
+                {note}
+              </button>
+            ) : (
+              <span>{note}</span>
+            )}
+          </span>
+        );
+      })}
     </div>
   );
 }

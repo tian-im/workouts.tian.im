@@ -15,8 +15,6 @@ src/
   index.css           Tailwind entry, design tokens, component classes, print styles
   data/
     plan.js           Sessions, exercises, prescriptions, TOC + section order
-    details.js        Per-exercise why / mistakes / easier / harder
-    panels.js         Structured reference copy for the detail sheet
   state/
     TrackerContext.jsx  Sets, weights, localStorage persistence, derived stats
   hooks/
@@ -24,16 +22,18 @@ src/
     useActiveSection.js Scroll spy for the sticky bar + Contents
   components/
     ui.jsx            Section, Card, Chip, Callout, RuleCard, Stat, MonoMeta…
-    Sheet.jsx         Native <dialog>: bottom sheet on phones, side drawer on desktop
+    Sheet.jsx         Native <dialog>: bottom sheet on phones, left drawer on desktop
     ContentsSheet.jsx Table of contents
-    DetailSheet.jsx   Exercise notes and reference panels
-    ExerciseCard.jsx  Prescription, weight input, set toggles
+    RestTimer.jsx     Floating rest countdown with chime
+    ExerciseCard.jsx  Title link, prescription, weight input, rest timer, set toggles
     SessionSection.jsx Day header, warm-up, exercises, cool-down
     Header.jsx, StickyBar.jsx, icons.jsx
   sections/           One component per page section (Hero → Calculators)
   lib/
     calc.js           1RM, BMR, TDEE, protein — pure functions
     nav.js            Instant section jumps
+    rest.js           Rest parsing, clock formatting, completion chime
+    links.js          YouTube form-search links
     tones.js          Session accent tokens
 public/
   index.html          Root redirect → /james/
@@ -82,6 +82,7 @@ Repo settings needed once:
 - **Read first** is a briefing, not a lock — nothing is hidden; the button only records that it's
   been read.
 - **The six rules** sit below the plan.
+- **Rest timer**: click any "rest 3 min" in a session to start a countdown; it rings when done.
 
 ## Editing the plan
 
@@ -97,9 +98,9 @@ Sessions and exercises are data, not markup:
 }
 ```
 
-Every exercise id needs a matching entry in `src/data/details.js` (why / mistakes / easier /
-harder). New sections need an id in `TOC_GROUPS` and `SECTION_ORDER` — the scroll spy and sticky
-tabs read from those.
+Exercise titles link to a YouTube form search built from the name, and rest notes must stay
+parseable (`rest 3 min`, `rest 90 s`, `rest 3–4 min`) because the timer reads them. New sections
+need an id in `TOC_GROUPS` and `SECTION_ORDER` — the scroll spy and sticky tabs read from those.
 
 ## Local data
 

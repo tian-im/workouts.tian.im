@@ -3,12 +3,13 @@ import { SECTION_ORDER, SESSIONS } from "./data/plan.js";
 import { useTracker } from "./state/TrackerContext.jsx";
 import { useAcknowledged } from "./hooks/useAcknowledged.js";
 import { useActiveSection } from "./hooks/useActiveSection.js";
+import { useRestTimer } from "./hooks/useRestTimer.js";
 import { idFromHash, jumpTo } from "./lib/nav.js";
 
 import Header from "./components/Header.jsx";
 import StickyBar from "./components/StickyBar.jsx";
 import SessionSection from "./components/SessionSection.jsx";
-import DetailSheet from "./components/DetailSheet.jsx";
+import RestTimer from "./components/RestTimer.jsx";
 import ContentsSheet from "./components/ContentsSheet.jsx";
 
 import Hero from "./sections/Hero.jsx";
@@ -28,8 +29,8 @@ export default function App() {
   const { stats, resetAll } = useTracker();
   const { acked, acknowledge } = useAcknowledged();
   const active = useActiveSection(SECTION_ORDER);
+  const rest = useRestTimer();
 
-  const [detail, setDetail] = useState(null);
   const [contentsOpen, setContentsOpen] = useState(false);
 
   useEffect(() => {
@@ -60,8 +61,6 @@ export default function App() {
     if (ok) resetAll();
   };
 
-  const openExercise = (id) => setDetail({ kind: "exercise", id });
-  const openPanel = (key) => setDetail({ kind: "panel", key });
   const print = () => window.print();
 
   return (
@@ -71,7 +70,7 @@ export default function App() {
       <Header onOpenContents={() => setContentsOpen(true)} onPrint={print} />
 
       <main className="relative z-10">
-        <Hero acked={acked} onStart={handleStart} onOpenPanel={openPanel} />
+        <Hero acked={acked} onStart={handleStart} />
 
         <ReadFirst acked={acked} onAcknowledge={handleAcknowledge} />
 
@@ -84,13 +83,13 @@ export default function App() {
 
         <div className="mx-auto max-w-5xl px-4 pb-6 sm:px-6">
           {SESSIONS.map((session) => (
-            <SessionSection key={session.id} session={session} onOpenDetails={openExercise} />
+            <SessionSection key={session.id} session={session} onStartRest={rest.start} />
           ))}
         </div>
 
         <Progress progressLabel={progressLabel} />
         <Rotation />
-        <Progression onOpenPanel={openPanel} />
+        <Progression />
         <BackPlaybook />
         <Recovery />
         <Rules />
@@ -107,7 +106,13 @@ export default function App() {
         </div>
       </footer>
 
-      <DetailSheet selection={detail} onClose={() => setDetail(null)} />
+      <RestTimer
+        timer={rest.timer}
+        onPause={rest.pause}
+        onResume={rest.resume}
+        onAdd={rest.addTime}
+        onStop={rest.stop}
+      />
 
       <ContentsSheet
         open={contentsOpen}

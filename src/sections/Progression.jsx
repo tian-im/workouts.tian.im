@@ -38,24 +38,13 @@ const PROGRESSION_ROWS = [
   { week: "Week 6", value: "62.5 kg × 5, 5, 5", highlight: true },
 ];
 
-export default function Progression({ onOpenPanel }) {
+export default function Progression() {
   return (
     <Section id="progression">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="eyebrow">The 8-week block</p>
-          <h2 className="mt-2.5 max-w-2xl text-[1.65rem] font-bold leading-tight sm:text-[2.15rem]">
-            More weight, or more reps. Never neither.
-          </h2>
-        </div>
-        <button
-          type="button"
-          onClick={() => onOpenPanel("block")}
-          className="no-print mt-1 hidden h-9 shrink-0 items-center rounded-lg border border-line px-3 text-xs font-medium text-dim transition-colors hover:border-faint hover:text-chalk sm:inline-flex"
-        >
-          How the block works
-        </button>
-      </div>
+      <p className="eyebrow">The 8-week block</p>
+      <h2 className="mt-2.5 max-w-2xl text-[1.65rem] font-bold leading-tight sm:text-[2.15rem]">
+        More weight, or more reps. Never neither.
+      </h2>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {BLOCKS.map((block) => (
@@ -99,18 +88,7 @@ export default function Progression({ onOpenPanel }) {
         </Card>
 
         <Card className="p-4 sm:p-6">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="font-display text-lg font-bold">What "RIR 2" actually means</h3>
-            <button
-              type="button"
-              onClick={() => onOpenPanel("rir")}
-              className="ex-more no-print"
-              aria-label="Reps in reserve — details"
-              aria-haspopup="dialog"
-            >
-              i
-            </button>
-          </div>
+          <h3 className="font-display text-lg font-bold">What "RIR 2" actually means</h3>
           <p className="mt-1.5 text-[13px] leading-relaxed text-dim">
             Reps In Reserve: how many clean reps you could still do when you rack the bar. RIR 2 means
             the set felt hard but you had two left.
