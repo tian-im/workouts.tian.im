@@ -12,6 +12,8 @@ import {
 } from "../src/lib/calc.js";
 import { parseRestSeconds, formatClock } from "../src/lib/rest.js";
 import { youtubeSearch } from "../src/lib/links.js";
+import { SESSIONS } from "../src/data/plan.js";
+import { VARIATIONS } from "../src/data/variations.js";
 
 test("Epley 1RM", () => {
   assert.equal(estimate1RM(100, 1), 100);
@@ -83,4 +85,14 @@ test("youtube search uses the plain lift name", () => {
   assert.ok(youtubeSearch("Deadlift — Conventional or Trap Bar").includes("Deadlift%20form"));
   assert.ok(youtubeSearch("Seal Row / Chest-Supported T-Bar Row").includes("Seal%20Row%20form"));
   assert.ok(youtubeSearch("Weighted Pull-Up or Lat Pulldown").includes("Weighted%20Pull-Up%20form"));
+});
+
+test("every exercise has a progression and regression", () => {
+  for (const session of SESSIONS) {
+    for (const exercise of session.exercises) {
+      const pair = VARIATIONS[exercise.id];
+      assert.ok(pair, `missing Prog/Reg for ${exercise.id}`);
+      assert.ok(pair.prog && pair.reg, `incomplete Prog/Reg for ${exercise.id}`);
+    }
+  }
 });

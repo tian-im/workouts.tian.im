@@ -52,8 +52,9 @@ hard requirements, not suggestions.
 - **At least one stretch/mobility session per week.** Scheduled in Recovery (`Stretch & mobility
   session`, ~20 min). If you restructure the week, keep it.
 - Stop a set when form changes — technique failure is real failure.
-- Every exercise links out to a form-video search (`src/lib/links.js`) and states its rest period;
-  rest text is a button that starts the rest timer.
+- Every exercise links out to a form-video search (`src/lib/links.js`), states its rest period (rest
+  text starts the timer), and carries a **Prog / Reg** pair in `src/data/variations.js`. A missing
+  pair should fail the test suite, not silently render nothing.
 - Load jumps stay conservative: 2.5 kg upper / 5 kg lower, no maxing outside the week 8 test.
 
 ### 5. Calculation functions
@@ -138,6 +139,7 @@ npm test           # calculation unit tests
 | `james/index.html` | Vite entry: meta, fonts, `#root` |
 | `src/App.jsx` | page composition, sheet state, handlers |
 | `src/data/plan.js` | sessions, exercises, prescriptions, TOC + section order |
+| `src/data/variations.js` | Prog / Reg pair for every exercise |
 | `src/state/TrackerContext.jsx` | sets, weights, persistence, derived stats |
 | `src/hooks/` | `useAcknowledged`, `useActiveSection`, `useRestTimer` |
 | `src/components/` | `ui.jsx`, `Sheet`/`ContentsSheet`, `RestTimer`, header, sticky bar, cards |
@@ -149,8 +151,10 @@ npm test           # calculation unit tests
 
 ## Editing the plan
 
-- Exercises live in `src/data/plan.js`. The YouTube link is derived from the name (`lib/links.js`),
-  so keep names close to the common exercise name.
+- Exercises live in `src/data/plan.js`; each id needs a `{ prog, reg }` entry in
+  `src/data/variations.js` (`npm test` enforces coverage).
+- The YouTube link is derived from the name (`lib/links.js`), so keep names close to the common
+  exercise name.
 - Rest notes must stay parseable (`rest 3 min`, `rest 90 s`, `rest 3–4 min`) — the timer reads them.
 - Session totals are derived from `sets`; don't hardcode counts anywhere.
 - Tracking data: `localStorage["james-plan-v1"]`; read acknowledgement:

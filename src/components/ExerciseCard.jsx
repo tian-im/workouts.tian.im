@@ -1,5 +1,6 @@
 import { useTracker } from "../state/TrackerContext.jsx";
 import { youtubeSearch } from "../lib/links.js";
+import { VARIATIONS } from "../data/variations.js";
 import { MonoMeta } from "./ui.jsx";
 import { ExternalIcon } from "./icons.jsx";
 
@@ -8,6 +9,7 @@ export default function ExerciseCard({ exercise, index, onStartRest }) {
   const { state, toggleSet, setWeight, resetToken } = useTracker();
   const marks = state.done[exercise.id] || [];
   const storedWeight = state.weights[exercise.id];
+  const variations = VARIATIONS[exercise.id];
 
   return (
     <article className="ex-card" data-ex={exercise.id}>
@@ -37,6 +39,19 @@ export default function ExerciseCard({ exercise, index, onStartRest }) {
               onStartRest ? (seconds) => onStartRest(seconds, exercise.name) : undefined
             }
           />
+
+          {variations ? (
+            <div className="ex-variations">
+              <span className="ex-var">
+                <span className="ex-var-label ex-var-prog">Prog</span>
+                <span>{variations.prog}</span>
+              </span>
+              <span className="ex-var">
+                <span className="ex-var-label">Reg</span>
+                <span>{variations.reg}</span>
+              </span>
+            </div>
+          ) : null}
         </div>
       </div>
 

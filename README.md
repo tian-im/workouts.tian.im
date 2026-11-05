@@ -15,6 +15,7 @@ src/
   index.css           Tailwind entry, design tokens, component classes, print styles
   data/
     plan.js           Sessions, exercises, prescriptions, TOC + section order
+    variations.js     Prog / Reg pair for every exercise
   state/
     TrackerContext.jsx  Sets, weights, localStorage persistence, derived stats
   hooks/
@@ -98,9 +99,10 @@ Sessions and exercises are data, not markup:
 }
 ```
 
-Exercise titles link to a YouTube form search built from the name, and rest notes must stay
-parseable (`rest 3 min`, `rest 90 s`, `rest 3–4 min`) because the timer reads them. New sections
-need an id in `TOC_GROUPS` and `SECTION_ORDER` — the scroll spy and sticky tabs read from those.
+Exercise titles link to a YouTube form search built from the name, rest notes must stay parseable
+(`rest 3 min`, `rest 90 s`, `rest 3–4 min`) because the timer reads them, and every id needs a
+`{ prog, reg }` pair in `src/data/variations.js` (enforced by `npm test`). New sections need an id
+in `TOC_GROUPS` and `SECTION_ORDER` — the scroll spy and sticky tabs read from those.
 
 ## Local data
 
