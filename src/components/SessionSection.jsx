@@ -22,7 +22,6 @@ export default function SessionSection({ session, onStartRest }) {
         <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div className="min-w-0">
             <h2 className="text-[1.6rem] font-bold leading-tight sm:text-[2rem]">{session.title}</h2>
-            <p className="mt-1.5 max-w-xl text-[13px] leading-relaxed text-dim">{session.description}</p>
           </div>
 
           <div className="flex shrink-0 flex-row items-center gap-3 sm:flex-col sm:items-end sm:gap-2">
