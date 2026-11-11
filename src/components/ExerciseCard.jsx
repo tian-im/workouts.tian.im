@@ -31,7 +31,6 @@ export default function ExerciseCard({ exercise, index, onStartRest }) {
             </a>
           </h3>
 
-          <p className="ex-cue">{exercise.cue}</p>
           <MonoMeta
             prescription={exercise.prescription}
             notes={exercise.notes}

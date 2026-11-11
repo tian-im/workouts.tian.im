@@ -153,11 +153,12 @@ npm test           # calculation unit tests
 
 - Exercises live in `src/data/plan.js`; each id needs a `{ prog, reg }` entry in
   `src/data/variations.js` (`npm test` enforces coverage).
+- Cards intentionally show only title, prescription, Prog/Reg and the tracker. Do not re-add form
+  cues or session blurbs — the YouTube link is the form reference, and the page is meant to be
+  scannable mid-set.
 - The YouTube link is derived from the name (`lib/links.js`), so keep names close to the common
   exercise name.
 - Rest notes must stay parseable (`rest 3 min`, `rest 90 s`, `rest 3–4 min`) — the timer reads them.
-- Exercise cues are **one short, actionable sentence**. The cards are for execution, not coaching —
-  don't reintroduce paragraph descriptions under session titles or long cues in the card.
 - Session totals are derived from `sets`; don't hardcode counts anywhere.
 - Tracking data: `localStorage["james-plan-v1"]`; read acknowledgement:
   `localStorage["james-plan-read-v1"]`. Never send either anywhere.

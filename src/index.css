@@ -151,14 +151,6 @@
     letter-spacing: -0.02em;
   }
 
-  .ex-cue {
-    margin-top: 0.3rem;
-    max-width: 66ch;
-    font-size: 0.8125rem;
-    line-height: 1.55;
-    color: var(--color-dim);
-  }
-
   .ex-meta {
     display: flex;
     flex-wrap: wrap;
@@ -178,10 +170,6 @@
 
   .ex-meta .sep {
     color: var(--color-line);
-  }
-
-  .ex-meta .cue-tag {
-    color: var(--color-dim);
   }
 
   .ex-variations {

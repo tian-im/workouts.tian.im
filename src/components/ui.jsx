@@ -95,7 +95,7 @@ export function MonoMeta({ prescription, notes = [], onStartRest }) {
         const seconds = onStartRest ? parseRestSeconds(note) : null;
         return (
           <span key={note} className="flex items-center gap-2.5">
-            {!seconds ? <span className="sep">·</span> : null}
+            <span className="sep">·</span>
             {seconds ? (
               <button
                 type="button"

@@ -15,7 +15,6 @@ export const SESSIONS = [
       {
         id: "A1",
         name: "Barbell Bench Press",
-        cue: "Blades pinned, bar to lower chest, elbows ~45°.",
         prescription: "3 × 5–6",
         notes: [
           "RIR 2",
@@ -29,7 +28,6 @@ export const SESSIONS = [
       {
         id: "A2",
         name: "Seated Dumbbell Shoulder Press",
-        cue: "Ribs down, press overhead without arching.",
         prescription: "3 × 8–10",
         notes: [
           "RIR 2",
@@ -42,7 +40,6 @@ export const SESSIONS = [
       {
         id: "A3",
         name: "Incline Dumbbell Press",
-        cue: "30° bench, deep stretch, press up and in.",
         prescription: "3 × 10–12",
         notes: [
           "RIR 1–2",
@@ -55,7 +52,6 @@ export const SESSIONS = [
       {
         id: "A4",
         name: "Chest-Supported Row",
-        cue: "Chest on the pad, elbows past ribs, 1 s squeeze.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -69,7 +65,6 @@ export const SESSIONS = [
       {
         id: "A5",
         name: "Cable Lateral Raise",
-        cue: "Lead with the elbow, stop at shoulder height.",
         prescription: "3 × 15–20",
         notes: [
           "RIR 0–1",
@@ -82,7 +77,6 @@ export const SESSIONS = [
       {
         id: "A6",
         name: "Rope Triceps Pushdown",
-        cue: "Elbows pinned, spread the rope at the bottom.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -109,7 +103,6 @@ export const SESSIONS = [
       {
         id: "B1",
         name: "Back Squat",
-        cue: "Brace, knees over toes, own the depth.",
         prescription: "3 × 5–6",
         notes: [
           "RIR 2",
@@ -123,7 +116,6 @@ export const SESSIONS = [
       {
         id: "B2",
         name: "Leg Press",
-        cue: "Feet mid-platform, stop before the back tucks.",
         prescription: "3 × 10–12",
         notes: [
           "RIR 2",
@@ -136,7 +128,6 @@ export const SESSIONS = [
       {
         id: "B3",
         name: "Leg Extension",
-        cue: "Slow up, squeeze, slow down.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -150,7 +141,6 @@ export const SESSIONS = [
       {
         id: "B4",
         name: "Seated Leg Curl",
-        cue: "Toes up, pause fully bent.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -163,7 +153,6 @@ export const SESSIONS = [
       {
         id: "B5",
         name: "Standing Calf Raise",
-        cue: "Full stretch, 2 s pause at the top.",
         prescription: "4 × 8–10",
         notes: [
           "RIR 1",
@@ -177,7 +166,6 @@ export const SESSIONS = [
       {
         id: "B6",
         name: "Hanging Knee Raise",
-        cue: "Curl the pelvis, don't swing.",
         prescription: "3 × 10–15",
         notes: [
           "RIR 1",
@@ -204,7 +192,6 @@ export const SESSIONS = [
       {
         id: "C1",
         name: "Barbell Row",
-        cue: "Hinge to 30–45°, pull to lower ribs, torso still.",
         prescription: "4 × 5–6",
         notes: [
           "RIR 2",
@@ -217,8 +204,7 @@ export const SESSIONS = [
       },
       {
         id: "C2",
-        name: "Seal Row",
-        cue: "Chest on the pad, elbows back and down, 1 s pause.",
+        name: "Seal Row / Chest-Supported T-Bar Row",
         prescription: "4 × 8–10",
         notes: [
           "RIR 1–2",
@@ -232,7 +218,6 @@ export const SESSIONS = [
       {
         id: "C3",
         name: "Seated Cable Row — Neutral Grip",
-        cue: "Blades forward, pull past neutral, chest tall.",
         prescription: "3 × 10–12",
         notes: [
           "RIR 1",
@@ -246,7 +231,6 @@ export const SESSIONS = [
       {
         id: "C4",
         name: "Straight-Arm Pulldown",
-        cue: "Arms straight, reach forward, drive with the armpits.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -260,7 +244,6 @@ export const SESSIONS = [
       {
         id: "C5",
         name: "Barbell Shrug",
-        cue: "Straight up, 2 s hold, no rolling.",
         prescription: "3 × 10–12",
         notes: [
           "RIR 1",
@@ -274,7 +257,6 @@ export const SESSIONS = [
       {
         id: "C6",
         name: "Face Pull",
-        cue: "Rope at eye height, pull to forehead, hands back.",
         prescription: "3 × 15–20",
         notes: [
           "RIR 1",
@@ -287,7 +269,6 @@ export const SESSIONS = [
       {
         id: "C7",
         name: "Reverse EZ-Bar Curl",
-        cue: "Wrists neutral, elbows still.",
         prescription: "3 × 10–12",
         notes: [
           "RIR 1",
@@ -313,8 +294,7 @@ export const SESSIONS = [
     exercises: [
       {
         id: "D1",
-        name: "Deadlift",
-        cue: "Bar over mid-foot, slack out, reset every rep.",
+        name: "Deadlift — Conventional or Trap Bar",
         prescription: "3 × 4–5",
         notes: [
           "RIR 3",
@@ -328,7 +308,6 @@ export const SESSIONS = [
       {
         id: "D2",
         name: "Romanian Deadlift",
-        cue: "Hips back, bar on the thighs, stop at the stretch.",
         prescription: "3 × 8–10",
         notes: [
           "RIR 2",
@@ -342,7 +321,6 @@ export const SESSIONS = [
       {
         id: "D3",
         name: "Bulgarian Split Squat",
-        cue: "Front foot forward, knee over mid-foot, torso upright.",
         prescription: "3 × 8–10 / leg",
         notes: [
           "RIR 2",
@@ -355,7 +333,6 @@ export const SESSIONS = [
       {
         id: "D4",
         name: "Lying Leg Curl",
-        cue: "Hips down, curl fully, 3 s down.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -369,7 +346,6 @@ export const SESSIONS = [
       {
         id: "D5",
         name: "45° Back Extension",
-        cue: "Brace, extend through the hips, not the spine.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -382,7 +358,6 @@ export const SESSIONS = [
       {
         id: "D6",
         name: "Seated Calf Raise",
-        cue: "Slow reps, full stretch, no bounce.",
         prescription: "4 × 12–15",
         notes: [
           "RIR 1",
@@ -408,8 +383,7 @@ export const SESSIONS = [
     exercises: [
       {
         id: "E1",
-        name: "Weighted Pull-Up",
-        cue: "Dead hang, elbows to ribs, chin over the bar.",
+        name: "Weighted Pull-Up or Lat Pulldown",
         prescription: "4 × 6–8",
         notes: [
           "RIR 1–2",
@@ -422,7 +396,6 @@ export const SESSIONS = [
       {
         id: "E2",
         name: "One-Arm Dumbbell Row",
-        cue: "Pull to the hip, no torso twist.",
         prescription: "3 × 8–10 / arm",
         notes: [
           "RIR 2",
@@ -435,7 +408,6 @@ export const SESSIONS = [
       {
         id: "E3",
         name: "Wide-Grip Lat Pulldown",
-        cue: "Wide grip, slow negative, chase the stretch.",
         prescription: "3 × 12–15",
         notes: [
           "RIR 1",
@@ -449,7 +421,6 @@ export const SESSIONS = [
       {
         id: "E4",
         name: "Incline Dumbbell Curl",
-        cue: "Arms behind you, elbows still.",
         prescription: "3 × 10–12",
         notes: [
           "RIR 1",
@@ -462,7 +433,6 @@ export const SESSIONS = [
       {
         id: "E5",
         name: "Cable Overhead Triceps Extension",
-        cue: "Elbows forward, rope behind the head.",
         prescription: "3 × 10–12",
         notes: [
           "RIR 1",
@@ -475,7 +445,6 @@ export const SESSIONS = [
       {
         id: "E6",
         name: "Rear-Delt Fly",
-        cue: "Lead with the elbows, stop at shoulder height.",
         prescription: "3 × 15–20",
         notes: [
           "RIR 0–1",
@@ -488,7 +457,6 @@ export const SESSIONS = [
       {
         id: "E7",
         name: "Dead Hang",
-        cue: "Just hang, breathe.",
         prescription: "2 × max",
         notes: [
           "rest 60 s"

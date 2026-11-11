@@ -83,6 +83,8 @@ Repo settings needed once:
 - **Read first** is a briefing, not a lock — nothing is hidden; the button only records that it's
   been read.
 - **The six rules** sit below the plan.
+- **Execution-first cards**: title (with video search), prescription, Prog/Reg, weight and set
+  toggles — no paragraphs to read between sets.
 - **Rest timer**: click any "rest 3 min" in a session to start a countdown; it rings when done.
 
 ## Editing the plan
