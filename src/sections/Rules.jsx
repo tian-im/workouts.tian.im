@@ -59,9 +59,8 @@ export default function Rules() {
       <Callout tone="lime" className="mt-3 p-4 sm:p-5">
         <p className="eyebrow text-lime">Non-negotiable</p>
         <p className="mt-1.5 max-w-3xl text-[13px] leading-relaxed text-soft">
-          Warm up before the first work set and cool down after the last one. Stop a set when your form
-          changes — technique failure is real failure. Train hard, but never at the cost of a joint; an
-          injury costs more weeks than any missed PR.
+          Warm up before the first work set and cool down after the last one. Train hard, but never at
+          the cost of a joint — an injury costs more weeks than any missed PR.
         </p>
       </Callout>
     </Section>

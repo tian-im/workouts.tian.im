@@ -24,6 +24,9 @@ hard requirements, not suggestions.
   cleanly with utilities alone.
 - Never render raw HTML strings (`dangerouslySetInnerHTML`). Copy lives in components or in the
   data modules under `src/data/`.
+- **Exercise cards are execution-only**: name (links to the form video), prescription, rest timer,
+  Prog/Reg and the tracker. No cue paragraphs or essays — form guidance lives behind the YouTube
+  search link. Before adding copy to a card, ask whether it helps him finish the set.
 
 ### 2. Compound movement first — including warm-up sets
 
@@ -151,11 +154,10 @@ npm test           # calculation unit tests
 
 ## Editing the plan
 
-- Exercises live in `src/data/plan.js`; each id needs a `{ prog, reg }` entry in
-  `src/data/variations.js` (`npm test` enforces coverage).
-- Cards intentionally show only title, prescription, Prog/Reg and the tracker. Do not re-add form
-  cues or session blurbs — the YouTube link is the form reference, and the page is meant to be
-  scannable mid-set.
+- Exercises live in `src/data/plan.js` as name, prescription, notes, sets and step. Cues and session
+  descriptions were deliberately removed (see the execution-only rule); don't reintroduce them
+  without a reason.
+- Each id needs a `{ prog, reg }` entry in `src/data/variations.js` (`npm test` enforces coverage).
 - The YouTube link is derived from the name (`lib/links.js`), so keep names close to the common
   exercise name.
 - Rest notes must stay parseable (`rest 3 min`, `rest 90 s`, `rest 3–4 min`) — the timer reads them.
