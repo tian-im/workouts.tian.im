@@ -8,8 +8,8 @@ export default function Progress({ progressLabel }) {
   const { stats } = useTracker();
 
   return (
-    <section id="progress" className="mx-auto max-w-5xl px-4 pt-10 sm:px-6 sm:pt-14">
-      <div className="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-end sm:justify-between">
+    <section id="progress" className="mx-auto max-w-5xl px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-14">
+      <div className="flex flex-col gap-3 border-b border-line pb-5 sm:flex-row sm:items-end sm:justify-between sm:pb-6">
         <div>
           <p className="eyebrow">Progress</p>
           <h2 className="mt-2 text-[1.5rem] font-bold leading-tight sm:text-[1.85rem]">
@@ -25,7 +25,7 @@ export default function Progress({ progressLabel }) {
         </Chip>
       </div>
 
-      <div className="mt-4 card divide-y divide-line">
+      <div className="mt-5 card divide-y divide-line">
         {SESSIONS.map((session) => {
           const progress = stats.perSession[session.letter] || { done: 0, total: 0, pct: 0 };
           return (
