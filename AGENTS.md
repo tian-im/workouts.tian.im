@@ -2,9 +2,14 @@
 
 Guidance for anyone — human or agent — changing this repo.
 
-`workouts.tian.im` is a static training site for James: **React + Vite + Tailwind CSS v4**, deployed
-to GitHub Pages by GitHub Actions. The plan itself is content — treat the programming rules below as
-hard requirements, not suggestions.
+`workouts.tian.im` is a static site with two training plans: **React + Vite + Tailwind CSS v4**,
+deployed to GitHub Pages by GitHub Actions. `/tian/` is Tian's own 5-minute-block plan; `/james/` is
+James's barbell plan. The plan itself is content — treat the programming rules below as hard
+requirements, not suggestions.
+
+Rules 1–5 and the James-specific sections below describe `/james/`. The `/tian/` entry has its own
+rules at the end of this file; where the two conflict (barbell compounds, 60–90 minute sessions),
+the `/tian/` section wins for `/tian/`.
 
 ## Non-negotiable rules
 
@@ -127,21 +132,72 @@ When adding a section:
 
 ```bash
 npm install
-npm run dev        # Vite dev server (http://localhost:5173/james/)
+npm run dev        # Vite dev server (http://localhost:5173/tian/ and /james/)
 npm run build      # production build into dist/
 npm run preview    # serve the built site
-npm test           # calculation unit tests
+npm test           # unit tests for both plans (scripts/*.test.mjs)
 ```
 
-- Entry: `james/index.html` → `src/main.jsx`. Built to `dist/james/index.html` with relative asset
-  URLs (`base: "./"`), so it works both on the custom domain and on the github.io project path.
-- `public/` is copied verbatim: root redirect, `/for-james/` legacy redirect, `404.html`, `CNAME`.
+- Entries: `tian/index.html` → `src/tian/main.jsx`, `james/index.html` → `src/main.jsx`. Both build
+  to `dist/` with relative asset URLs (`base: "./"`), so they work on the custom domain and on the
+  github.io project path.
+- `public/` is copied verbatim: root redirect (→ `/tian/`), `/for-james/` legacy redirect,
+  `404.html`, `CNAME`.
 - Pages deploys on push to `develop` (and `main`).
+
+## The `/tian/` entry
+
+Tian trains in 5-minute blocks between work sessions, from an RV, with no gym.
+
+### Hard requirements
+
+- **Spend a whole 5 minutes, never more.** Every block in `src/tian/data/program.js` is one movement
+  in 2–3 sets with its rest inside `BLOCK_SECONDS` (300). If a prescription does not fit, make
+  another block — do not extend the timer.
+- **Load comes from leverage, not from a barbell.** The ceiling is 2 × 10 kg dumbbells plus a 10 kg
+  vest. Progress by single-leg variants, 3-second eccentrics, pauses and frequency. Never write a
+  block that assumes a barbell, rack, machines or a 20 kg plate.
+- **No jumping before week 9.** Weeks 1–8 build ankles, knees, hips and landing control
+  (`Slow Step-Down`, calf work, isometrics). Week 8 tests five qualities; passing 3/5 is the entry
+  ticket. Do not sneak plyometrics into the block list.
+- **5 training days + 1 full day off.** Weekdays map A–E via `WEEKDAY_PLAN`; the weekend is the long
+  block or complete rest. A 7th training day is a bug, not a bonus.
+- **RIR 2 on main lifts, RIR 1 on isolation, never "to failure"** on calves, carries or isometrics.
+- **Every block names its rest in seconds** (`rest: 90`). The countdown reads the number; there is no
+  string parsing here, unlike James's `rest 3 min` notes.
+- **Copy is Chinese; exercise names stay English** so the YouTube form search (built from the name
+  via `lib/links.js`) still returns useful results.
+- **Pausing is a feature.** Leaving mid-block must keep the remaining seconds and the logged sets;
+  `useBlockClock` persists through `onPersist`, and `state.clocks[key] > 0` means "in progress".
+- **Never prefill body data.** Week 1 finds the weight; suggested starting loads are written as
+  "参考起点" and must stay editable.
+
+### Structure
+
+- `src/tian/data/exercises.js` — movement library: `name`, `zh`, one-line `setup`, `unit`, `perSide`.
+- `src/tian/data/program.js` — `DAYS` (A–E, 6 required + 2 optional blocks each), `WEEKS`,
+  `LONG_BLOCK`, `TESTS`, `TOC_GROUPS`, `SECTION_ORDER`.
+- `src/tian/state/PlanContext.jsx` — `localStorage["tian-plan-v1"]`: week, day, logged sets, saved
+  clocks, last loads, test results.
+- `src/tian/lib/progress.js` — pure functions (`topRepsOf`, `setsFor`, `suggestNextLoad`,
+  `totalVolume`, `blockStats`, `weekStats`), unit tested in `scripts/tian.test.mjs`.
+- Section ids are `tian-hero`, `tian-today`, `tian-long`, `tian-weeks`, `tian-method`, `tian-test`,
+  `tian-library`, `tian-safety`, `tian-setup`; they must stay in `TOC_GROUPS` so the scroll spy and
+  contents sheet work.
+- `BlockRunner` is a full-page view, not a dialog: while it is open, the rest of the page is not
+  rendered. It owns the clock; `Today` only decides which block comes next (`lib/today.js`).
 
 ## Files
 
 | Path | What lives there |
 | --- | --- |
+| `tian/index.html` | Vite entry for the 5-minute plan: meta, fonts, `#root` |
+| `src/tian/data/program.js` | Day types A–E, 8-week table, long block, tests, TOC |
+| `src/tian/data/exercises.js` | Movement library (name, 中文名, setup, unit) |
+| `src/tian/state/PlanContext.jsx` | Week, day, sets, clocks, loads, tests, persistence |
+| `src/tian/components/` | `TianHeader`, `TianToc`, `BlockRunner` |
+| `src/tian/sections/` | Hero, Today, LongBlock, EightWeeks, Method, Test, Library, Safety, Setup |
+| `src/tian/lib/progress.js` | Double-progression maths + block/week stats (tested) |
 | `james/index.html` | Vite entry: meta, fonts, `#root` |
 | `src/App.jsx` | page composition, sheet state, handlers |
 | `src/data/plan.js` | sessions, exercises, prescriptions, TOC + section order |
@@ -149,11 +205,12 @@ npm test           # calculation unit tests
 | `src/state/TrackerContext.jsx` | sets, weights, persistence, derived stats |
 | `src/hooks/` | `useAcknowledged`, `useActiveSection`, `useRestTimer` |
 | `src/components/` | `ui.jsx`, `Sheet`/`ContentsSheet`, `RestTimer`, header, sticky bar, cards |
-| `src/sections/` | one component per page section |
+| `src/sections/` | one component per James section |
 | `src/lib/` | `calc.js`, `nav.js`, `tones.js`, `rest.js`, `links.js` |
 | `src/index.css` | design tokens + component classes + print styles |
-| `public/` | redirects, 404, CNAME |
+| `public/` | redirects (root → `/tian/`), 404, CNAME |
 | `scripts/calc.test.mjs` | node:test suite for `calc.js` |
+| `scripts/tian.test.mjs` | node:test suite for `src/tian/lib/progress.js` |
 
 ## Editing the plan
 
@@ -171,8 +228,9 @@ npm test           # calculation unit tests
 ## Before you ship
 
 1. `npm run build && npm test`
-2. Check `/james/` at 320, 390, 768 and 1440 — no overflow, sticky bar not covering headings.
-3. Clear site data and reload: the briefing appears first, sessions are still reachable.
-4. Open Contents → jump to a section; click a rest time → timer starts, +30s works, stop clears it.
-5. Print preview: no controls, no ack card, sessions and appendix present.
-6. Commit with a message that says what changed for James, not just which files moved.
+2. Check `/tian/` and `/james/` at 320, 390, 768 and 1440 — no overflow, sticky bar not covering headings.
+3. `/tian/`: clear site data, start block 1, pause mid-block, reload — the block must resume at the same second with its sets intact. Start a strength block, log a set, check the rest chip and the next set's inherited load.
+4. `/james/`: clear site data and reload — the briefing appears first, sessions are still reachable.
+5. Open Contents → jump to a section; `/james/` rest time → timer starts, +30s works, stop clears it.
+6. Print preview: no controls, no runner overlay, sessions and appendix present.
+7. Commit with a message that says what changed for the trainee, not just which files moved.

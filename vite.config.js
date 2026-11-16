@@ -13,7 +13,8 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        plan: fileURLToPath(new URL("./james/index.html", import.meta.url)),
+        tian: fileURLToPath(new URL("./tian/index.html", import.meta.url)),
+        james: fileURLToPath(new URL("./james/index.html", import.meta.url)),
       },
     },
   },

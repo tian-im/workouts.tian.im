@@ -676,6 +676,179 @@
     -moz-appearance: textfield;
     appearance: textfield;
   }
+
+  /* Tian — 5 分钟块 ------------------------------------------------ */
+  .tian-runner {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--color-void);
+  }
+
+  .tian-clock {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 17vw, 4.25rem);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--color-chalk);
+  }
+
+  .tian-clock[data-finished="true"] {
+    color: var(--color-lime);
+  }
+
+  .tian-bar {
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--color-panel-3);
+    overflow: hidden;
+  }
+
+  .tian-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--color-chalk);
+    transition: width 220ms linear;
+  }
+
+  .tian-bar span[data-finished="true"] {
+    background: var(--color-lime);
+  }
+
+  .tian-rest {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.7rem;
+    background: var(--color-panel-2);
+  }
+
+  .tian-rest[data-done="true"] {
+    border-color: color-mix(in srgb, var(--color-lime) 40%, white);
+    background: color-mix(in srgb, var(--color-highlight) 28%, white);
+  }
+
+  .tian-set-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.7rem;
+    background: var(--color-panel);
+    transition:
+      border-color 140ms ease,
+      background 140ms ease;
+  }
+
+  .tian-set-row[data-done="true"] {
+    border-color: color-mix(in srgb, var(--color-lime) 32%, white);
+    background: color-mix(in srgb, var(--color-highlight) 12%, white);
+  }
+
+  .tian-set-row .weight-input {
+    width: 3.75rem;
+    height: 2.4rem;
+  }
+
+  .tian-block {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.65rem 0.7rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.8rem;
+    background: var(--color-panel);
+  }
+
+  .tian-block[data-state="done"] {
+    background: var(--color-panel-2);
+  }
+
+  .tian-block[data-state="optional"] {
+    border-style: dashed;
+  }
+
+  .tian-block[data-highlighted="true"] {
+    border-color: color-mix(in srgb, var(--color-lime) 45%, white);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-highlight) 40%, transparent);
+  }
+
+  .tian-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 2.5rem;
+    padding: 0 0.65rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.55rem;
+    background: var(--color-panel);
+    font-size: 0.8rem;
+    color: var(--color-dim);
+    transition:
+      background 140ms ease,
+      color 140ms ease,
+      border-color 140ms ease;
+  }
+
+  .tian-tab:hover {
+    border-color: var(--color-faint);
+    color: var(--color-chalk);
+  }
+
+  .tian-tab[aria-current="true"] {
+    background: var(--color-chalk);
+    border-color: var(--color-chalk);
+    color: #fff;
+  }
+
+  .tian-tab[aria-current="true"] * {
+    color: inherit;
+  }
+
+  .tian-tab[data-complete="true"] {
+    border-color: color-mix(in srgb, var(--color-lime) 40%, white);
+  }
+
+  .tian-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    background: var(--color-panel);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-soft);
+  }
+
+  .tian-step:hover:not(:disabled) {
+    border-color: var(--color-faint);
+    color: var(--color-chalk);
+  }
+
+  .tian-step:disabled {
+    opacity: 0.35;
+  }
+
+  .tian-table tr[data-current="true"] {
+    background: color-mix(in srgb, var(--color-highlight) 22%, white);
+  }
+
+  .chip-solid {
+    background: var(--color-chalk);
+    border-color: var(--color-chalk);
+    color: #fff;
+  }
 }
 
 @media (min-width: 640px) {
@@ -766,6 +939,7 @@
 
   .page-grid,
   .rest-timer,
+  .tian-runner,
   .no-print,
   #session-nav,
   .detail-dialog,
