@@ -1,6 +1,7 @@
 import { useTracker } from "../state/TrackerContext.jsx";
 import { youtubeSearch } from "../lib/links.js";
 import { VARIATIONS } from "../data/variations.js";
+import { roundTo } from "../lib/calc.js";
 import { MonoMeta } from "./ui.jsx";
 import { ExternalIcon } from "./icons.jsx";
 
@@ -10,6 +11,11 @@ export default function ExerciseCard({ exercise, index, onStartRest }) {
   const marks = state.done[exercise.id] || [];
   const storedWeight = state.weights[exercise.id];
   const variations = VARIATIONS[exercise.id];
+  const backoff = exercise.backoff;
+  const backoffWeight =
+    backoff && !backoff.bodyweight && storedWeight
+      ? roundTo((storedWeight * backoff.percent) / 100, exercise.step)
+      : null;
 
   return (
     <article className="ex-card" data-ex={exercise.id}>
@@ -38,6 +44,16 @@ export default function ExerciseCard({ exercise, index, onStartRest }) {
               onStartRest ? (seconds) => onStartRest(seconds, exercise.name) : undefined
             }
           />
+
+          {backoff ? (
+            <p className="ex-backoff">
+              <span className="ex-var-label">BO</span>
+              <span>
+                1 × {backoff.reps} {backoff.bodyweight ? "bodyweight" : `@ ${backoff.percent}%`}
+                {backoffWeight ? ` (≈ ${backoffWeight} kg)` : ""} · RIR {backoff.rir}
+              </span>
+            </p>
+          ) : null}
 
           {variations ? (
             <div className="ex-variations">
@@ -73,20 +89,24 @@ export default function ExerciseCard({ exercise, index, onStartRest }) {
         </div>
 
         <div className="flex gap-1.5" role="group" aria-label={`${exercise.name} sets`}>
-          {Array.from({ length: exercise.sets }, (_, i) => (
-            <button
-              key={i}
-              type="button"
-              className="set-dot"
-              data-set={i + 1}
-              data-done={marks[i] ? "true" : "false"}
-              aria-pressed={marks[i] ? "true" : "false"}
-              aria-label={`Set ${i + 1}`}
-              onClick={() => toggleSet(exercise.id, i)}
-            >
-              {i + 1}
-            </button>
-          ))}
+          {Array.from({ length: exercise.sets }, (_, i) => {
+            const isBackoff = Boolean(backoff) && i === exercise.sets - 1;
+            return (
+              <button
+                key={i}
+                type="button"
+                className="set-dot"
+                data-set={i + 1}
+                data-backoff={isBackoff ? "true" : "false"}
+                data-done={marks[i] ? "true" : "false"}
+                aria-pressed={marks[i] ? "true" : "false"}
+                aria-label={isBackoff ? "Back-off set" : `Set ${i + 1}`}
+                onClick={() => toggleSet(exercise.id, i)}
+              >
+                {isBackoff ? "BO" : i + 1}
+              </button>
+            );
+          })}
         </div>
       </div>
     </article>

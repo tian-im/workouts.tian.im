@@ -202,6 +202,27 @@
     color: var(--color-lime);
   }
 
+  .ex-backoff {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    color: var(--color-dim);
+  }
+
+  .set-dot[data-backoff="true"] {
+    border-style: dashed;
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+  }
+
+  .set-dot[data-backoff="true"][data-done="true"] {
+    border-style: solid;
+  }
+
   /* Rest time is a button: clicking it starts the timer */
   .rest-trigger {
     display: inline-flex;

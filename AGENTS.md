@@ -43,6 +43,9 @@ hard requirements, not suggestions.
   body or **5 kg** lower body next session. Not before, not by feel.
 - 8-week block: weeks 1–2 technique (RIR 3–4) → weeks 3–6 build → week 7 deload (same load, half the
   sets) → week 8 AMRAP test.
+- Main lifts carry one **back-off set** (~90% of the work weight, 1×5–6, RIR 3; pull-ups at
+  bodyweight). It is the cheap way to add compound volume without lengthening the session; the last
+  set dot is dashed to mark it.
 - Every exercise must state sets × reps, RIR, rest and (where relevant) tempo, and must be loggable
   in the tracker. An exercise that cannot progress is a bug.
 
@@ -94,7 +97,7 @@ Order is deliberate:
 5. Rotation / Progression / Back playbook
 6. Recovery (fuel, sleep, **stretch session**)
 7. **The six rules** — deliberately *below* the plan
-8. FAQ → Reference card → Calculators
+8. Reference card → Calculators
 
 When adding a section:
 

@@ -19,7 +19,7 @@ const LEVERS = [
   {
     n: "04",
     title: "Frequency",
-    body: "Three back touches a week, ~27 direct sets. The back recovers faster than legs, so it can take the frequency — and frequency beats one big session.",
+    body: "Three back touches a week, ~29 direct sets. The back recovers faster than legs, so it can take the frequency — and frequency beats one big session.",
   },
 ];
 

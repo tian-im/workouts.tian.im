@@ -21,7 +21,8 @@ export const SESSIONS = [
           "3-1-1-0",
           "rest 3 min"
         ],
-        sets: 3,
+        sets: 4,
+        backoff: { reps: 5, percent: 90, rir: 3 },
         step: 2.5,
         placeholder: "—"
       },
@@ -109,7 +110,8 @@ export const SESSIONS = [
           "3-1-1-0",
           "rest 3–4 min"
         ],
-        sets: 3,
+        sets: 4,
+        backoff: { reps: 5, percent: 90, rir: 3 },
         step: 2.5,
         placeholder: "—"
       },
@@ -184,7 +186,7 @@ export const SESSIONS = [
     label: "Priority day",
     tocLabel: "Back thickness",
     title: "Back — thickness",
-    duration: "~85 min",
+    duration: "~90 min",
     warmup: "5 min rower · scap pulldowns 2×10 · band pull-aparts 2×15 · empty-bar rows ×10 · ramp sets.",
     cooldown: "Lat stretch on the rack 2×30 s/side · child's pose 60 s · doorway chest stretch.",
     note: "Drop #7 and #6 — never drop #1 or #2. They're the reason this day exists.",
@@ -198,7 +200,8 @@ export const SESSIONS = [
           "2-0-1-1",
           "rest 3 min"
         ],
-        sets: 4,
+        sets: 5,
+        backoff: { reps: 6, percent: 90, rir: 3 },
         step: 2.5,
         placeholder: "—"
       },
@@ -301,7 +304,8 @@ export const SESSIONS = [
           "reset each rep",
           "rest 3–4 min"
         ],
-        sets: 3,
+        sets: 4,
+        backoff: { reps: 5, percent: 90, rir: 3 },
         step: 2.5,
         placeholder: "—"
       },
@@ -389,7 +393,8 @@ export const SESSIONS = [
           "RIR 1–2",
           "rest 2–3 min"
         ],
-        sets: 4,
+        sets: 5,
+        backoff: { reps: 8, bodyweight: true, rir: 3 },
         step: 2.5,
         placeholder: "BW"
       },
@@ -508,7 +513,6 @@ export const TOC_GROUPS = [
     items: [
       { id: "recovery", label: "Fuel & recovery" },
       { id: "rules", label: "The six rules" },
-      { id: "faq", label: "FAQ" },
       { id: "appendix", label: "Reference card" },
       { id: "calculators", label: "Calculators" },
     ],
@@ -526,7 +530,6 @@ export const SECTION_ORDER = [
   "back",
   "recovery",
   "rules",
-  "faq",
   "appendix",
   "calculators",
 ];

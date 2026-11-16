@@ -42,7 +42,7 @@ export default function Hero({ acked, onStart }) {
       <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-9 sm:grid-cols-4">
         <Stat label="Sessions / wk" value="05" suffix="ideal" />
         <Stat label="Minimum / wk" value="03" suffix="floor" />
-        <Stat label="Back sets / wk" value="27" suffix="direct" accent />
+        <Stat label="Back sets / wk" value="29" suffix="direct" accent />
         <Stat label="Block" value="08" suffix="weeks" />
       </dl>
     </section>

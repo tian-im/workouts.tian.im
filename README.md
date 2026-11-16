@@ -84,6 +84,7 @@ Repo settings needed once:
   been read.
 - **The six rules** sit below the plan.
 - **Rest timer**: click any "rest 3 min" in a session to start a countdown; it rings when done.
+- **Back-off sets**: each main lift finishes with one lighter set (~90%), marked with a dashed dot.
 - **Execution-only cards**: each exercise shows the name (linked to a form video), prescription,
   rest timer, Prog/Reg and the tracker — no paragraphs to read mid-set.
 

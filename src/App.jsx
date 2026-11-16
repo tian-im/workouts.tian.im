@@ -20,10 +20,8 @@ import Progression from "./sections/Progression.jsx";
 import BackPlaybook from "./sections/BackPlaybook.jsx";
 import Recovery from "./sections/Recovery.jsx";
 import Rules from "./sections/Rules.jsx";
-import Faq from "./sections/Faq.jsx";
 import Appendix from "./sections/Appendix.jsx";
 import Calculators from "./sections/Calculators.jsx";
-import Closing from "./sections/Closing.jsx";
 
 export default function App() {
   const { stats, resetAll } = useTracker();
@@ -93,10 +91,8 @@ export default function App() {
         <BackPlaybook />
         <Recovery />
         <Rules />
-        <Faq />
         <Appendix />
         <Calculators />
-        <Closing progressLabel={progressLabel} onPrint={print} onResetAll={handleResetAll} />
       </main>
 
       <footer className="relative z-10 border-t border-line">
